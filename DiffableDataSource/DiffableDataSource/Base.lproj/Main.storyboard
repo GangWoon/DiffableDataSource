@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="34.782608695652179" y="69.642857142857139"/>
         </scene>
-        <!--Code Squad Coworker View Controller-->
+        <!--Code Squad-->
         <scene sceneID="Htd-rM-bdY">
             <objects>
                 <tableViewController id="4ck-3z-kqo" customClass="CodeSquadCoworkerViewController" customModule="DiffableDataSource" customModuleProvider="target" sceneMemberID="viewController">
@@ -37,7 +37,13 @@
                             <outlet property="delegate" destination="4ck-3z-kqo" id="4FX-dL-4Wb"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="7c6-3e-VXE"/>
+                    <navigationItem key="navigationItem" title="Code Squad" id="7c6-3e-VXE">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="TRC-IW-OEY">
+                            <connections>
+                                <action selector="refreshTableView:" destination="4ck-3z-kqo" id="sNi-7p-qDf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Mz-4N-7tk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

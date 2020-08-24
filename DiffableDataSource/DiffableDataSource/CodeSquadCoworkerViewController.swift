@@ -12,7 +12,7 @@ final class CodeSquadCoworkerViewController: UITableViewController {
     
     // MARK: - Properties
     private var searchController: UISearchController = .init(searchResultsController: nil)
-    private var viewModel: CodeSquadCowerWorkerViewModel = .init()
+    private lazy var viewModel: CodeSquadCowerWorkerViewModel = .init(tableView)
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -21,6 +21,11 @@ final class CodeSquadCoworkerViewController: UITableViewController {
     }
     
     // MARK: - Methods
+    @IBAction func refreshTableView(_ sender: Any) {
+        viewModel
+            .applySnapshot()
+    }
+    
     func configure() {
         tableView.dataSource = viewModel
         tableView
@@ -40,7 +45,8 @@ final class CodeSquadCoworkerViewController: UITableViewController {
 
 extension CodeSquadCoworkerViewController: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
-        viewModel.developers = viewModel.filteredDeveloper(for: searchController.searchBar.text)
-        tableView.reloadData()
+        viewModel.specialList = viewModel.filteredDeveloper(for: searchController.searchBar.text)
+        viewModel
+            .applySnapshot()
     }
 }

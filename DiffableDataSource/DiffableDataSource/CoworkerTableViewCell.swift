@@ -32,10 +32,9 @@ final class CoworkerTableViewCell: UITableViewCell {
     }
     
     // MARK: - Methods
-    func apply(name: String, age: Int, team: String) {
+    func apply(name: String, age: Int) {
         nameLabel.text = name
         ageLabel.text = String(age)
-        teamLabel.text = team
     }
     
     private func configure() {
