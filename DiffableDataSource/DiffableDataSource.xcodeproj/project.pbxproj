@@ -3,18 +3,22 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE45E35024F3C736008EB76B /* Developer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE45E34F24F3C736008EB76B /* Developer.swift */; };
+		AE45E35224F3C8F4008EB76B /* CoworkerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE45E35124F3C8F4008EB76B /* CoworkerTableViewCell.swift */; };
+		AE45E35424F3E029008EB76B /* CodeSquadCowerWorkerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE45E35324F3E029008EB76B /* CodeSquadCowerWorkerViewModel.swift */; };
+		AE6F932524EFE138003E3AE8 /* CodeSquadCoworkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F932424EFE138003E3AE8 /* CodeSquadCoworkerViewController.swift */; };
 		AECB033B24EF939B00E07918 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECB033A24EF939B00E07918 /* AppDelegate.swift */; };
 		AECB033D24EF939B00E07918 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECB033C24EF939B00E07918 /* SceneDelegate.swift */; };
-		AECB033F24EF939B00E07918 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECB033E24EF939B00E07918 /* ViewController.swift */; };
 		AECB034224EF939B00E07918 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AECB034024EF939B00E07918 /* Main.storyboard */; };
 		AECB034524EF939B00E07918 /* DiffableDataSource.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AECB034324EF939B00E07918 /* DiffableDataSource.xcdatamodeld */; };
 		AECB034724EF939C00E07918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AECB034624EF939C00E07918 /* Assets.xcassets */; };
 		AECB034A24EF939C00E07918 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AECB034824EF939C00E07918 /* LaunchScreen.storyboard */; };
 		AECB035524EF939C00E07918 /* DiffableDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECB035424EF939C00E07918 /* DiffableDataSourceTests.swift */; };
+		AECB036924EFA74B00E07918 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = AECB036824EFA74B00E07918 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,10 +32,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AE45E34F24F3C736008EB76B /* Developer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Developer.swift; sourceTree = "<group>"; };
+		AE45E35124F3C8F4008EB76B /* CoworkerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoworkerTableViewCell.swift; sourceTree = "<group>"; };
+		AE45E35324F3E029008EB76B /* CodeSquadCowerWorkerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSquadCowerWorkerViewModel.swift; sourceTree = "<group>"; };
+		AE6F932424EFE138003E3AE8 /* CodeSquadCoworkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSquadCoworkerViewController.swift; sourceTree = "<group>"; };
 		AECB033724EF939B00E07918 /* DiffableDataSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiffableDataSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECB033A24EF939B00E07918 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AECB033C24EF939B00E07918 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AECB033E24EF939B00E07918 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AECB034124EF939B00E07918 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AECB034424EF939B00E07918 /* DiffableDataSource.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiffableDataSource.xcdatamodel; sourceTree = "<group>"; };
 		AECB034624EF939C00E07918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AECB036924EFA74B00E07918 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,8 +91,11 @@
 			children = (
 				AECB033A24EF939B00E07918 /* AppDelegate.swift */,
 				AECB033C24EF939B00E07918 /* SceneDelegate.swift */,
-				AECB033E24EF939B00E07918 /* ViewController.swift */,
+				AE6F932424EFE138003E3AE8 /* CodeSquadCoworkerViewController.swift */,
+				AE45E35324F3E029008EB76B /* CodeSquadCowerWorkerViewModel.swift */,
 				AECB034024EF939B00E07918 /* Main.storyboard */,
+				AE45E35124F3C8F4008EB76B /* CoworkerTableViewCell.swift */,
+				AE45E34F24F3C736008EB76B /* Developer.swift */,
 				AECB034624EF939C00E07918 /* Assets.xcassets */,
 				AECB034824EF939C00E07918 /* LaunchScreen.storyboard */,
 				AECB034B24EF939C00E07918 /* Info.plist */,
@@ -118,6 +129,9 @@
 			dependencies = (
 			);
 			name = DiffableDataSource;
+			packageProductDependencies = (
+				AECB036824EFA74B00E07918 /* SnapKit */,
+			);
 			productName = DiffableDataSource;
 			productReference = AECB033724EF939B00E07918 /* DiffableDataSource.app */;
 			productType = "com.apple.product-type.application";
@@ -168,6 +182,9 @@
 				Base,
 			);
 			mainGroup = AECB032E24EF939B00E07918;
+			packageReferences = (
+				AECB036724EFA74B00E07918 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = AECB033824EF939B00E07918 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -203,9 +220,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AECB033F24EF939B00E07918 /* ViewController.swift in Sources */,
+				AE6F932524EFE138003E3AE8 /* CodeSquadCoworkerViewController.swift in Sources */,
+				AE45E35024F3C736008EB76B /* Developer.swift in Sources */,
 				AECB033B24EF939B00E07918 /* AppDelegate.swift in Sources */,
 				AECB033D24EF939B00E07918 /* SceneDelegate.swift in Sources */,
+				AE45E35424F3E029008EB76B /* CodeSquadCowerWorkerViewModel.swift in Sources */,
+				AE45E35224F3C8F4008EB76B /* CoworkerTableViewCell.swift in Sources */,
 				AECB034524EF939B00E07918 /* DiffableDataSource.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -469,6 +489,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AECB036724EFA74B00E07918 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AECB036824EFA74B00E07918 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AECB036724EFA74B00E07918 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		AECB034324EF939B00E07918 /* DiffableDataSource.xcdatamodeld */ = {
