@@ -8,11 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		AE03F3F426A88917004C12BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F3F326A88917004C12BF /* AppDelegate.swift */; };
-		AE03F3F826A88917004C12BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F3F726A88917004C12BF /* ViewController.swift */; };
 		AE03F3FD26A88918004C12BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE03F3FC26A88918004C12BF /* Assets.xcassets */; };
 		AE03F40026A88918004C12BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE03F3FE26A88918004C12BF /* LaunchScreen.storyboard */; };
 		AE03F40B26A88918004C12BF /* DiffableDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F40A26A88918004C12BF /* DiffableDataSourceTests.swift */; };
 		AE03F41626A88918004C12BF /* DiffableDataSourceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F41526A88918004C12BF /* DiffableDataSourceUITests.swift */; };
+		AE33B46F26AB2BD100F1619D /* MemberListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE33B46E26AB2BD100F1619D /* MemberListStore.swift */; };
+		AEE67A3526A9BEA400CFDFF6 /* MemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE67A3426A9BEA400CFDFF6 /* MemberListViewController.swift */; };
+		AEE67A3726A9BF0E00CFDFF6 /* MemberListViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE67A3626A9BF0E00CFDFF6 /* MemberListViewController+Extension.swift */; };
+		AEE67A3926A9C0AE00CFDFF6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE67A3826A9C0AE00CFDFF6 /* Helper.swift */; };
+		AEE67A7226A9D0D300CFDFF6 /* MemberListPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE67A7126A9D0D300CFDFF6 /* MemberListPreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +39,6 @@
 /* Begin PBXFileReference section */
 		AE03F3F026A88917004C12BF /* DiffableDataSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiffableDataSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE03F3F326A88917004C12BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AE03F3F726A88917004C12BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AE03F3FC26A88918004C12BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE03F3FF26A88918004C12BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE03F40126A88918004C12BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +48,11 @@
 		AE03F41126A88918004C12BF /* DiffableDataSourceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiffableDataSourceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE03F41526A88918004C12BF /* DiffableDataSourceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceUITests.swift; sourceTree = "<group>"; };
 		AE03F41726A88918004C12BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE33B46E26AB2BD100F1619D /* MemberListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListStore.swift; sourceTree = "<group>"; };
+		AEE67A3426A9BEA400CFDFF6 /* MemberListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListViewController.swift; sourceTree = "<group>"; };
+		AEE67A3626A9BF0E00CFDFF6 /* MemberListViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberListViewController+Extension.swift"; sourceTree = "<group>"; };
+		AEE67A3826A9C0AE00CFDFF6 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		AEE67A7126A9D0D300CFDFF6 /* MemberListPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +103,12 @@
 		AE03F3F226A88917004C12BF /* DiffableDataSource */ = {
 			isa = PBXGroup;
 			children = (
+				AEE67A7326A9D50100CFDFF6 /* Preview */,
 				AE03F3F326A88917004C12BF /* AppDelegate.swift */,
-				AE03F3F726A88917004C12BF /* ViewController.swift */,
+				AEE67A3426A9BEA400CFDFF6 /* MemberListViewController.swift */,
+				AEE67A3626A9BF0E00CFDFF6 /* MemberListViewController+Extension.swift */,
+				AE33B46E26AB2BD100F1619D /* MemberListStore.swift */,
+				AEE67A3826A9C0AE00CFDFF6 /* Helper.swift */,
 				AE03F3FC26A88918004C12BF /* Assets.xcassets */,
 				AE03F3FE26A88918004C12BF /* LaunchScreen.storyboard */,
 				AE03F40126A88918004C12BF /* Info.plist */,
@@ -120,6 +132,14 @@
 				AE03F41726A88918004C12BF /* Info.plist */,
 			);
 			path = DiffableDataSourceUITests;
+			sourceTree = "<group>";
+		};
+		AEE67A7326A9D50100CFDFF6 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				AEE67A7126A9D0D300CFDFF6 /* MemberListPreview.swift */,
+			);
+			path = Preview;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,8 +271,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE03F3F826A88917004C12BF /* ViewController.swift in Sources */,
 				AE03F3F426A88917004C12BF /* AppDelegate.swift in Sources */,
+				AE33B46F26AB2BD100F1619D /* MemberListStore.swift in Sources */,
+				AEE67A3926A9C0AE00CFDFF6 /* Helper.swift in Sources */,
+				AEE67A3726A9BF0E00CFDFF6 /* MemberListViewController+Extension.swift in Sources */,
+				AEE67A3526A9BEA400CFDFF6 /* MemberListViewController.swift in Sources */,
+				AEE67A7226A9D0D300CFDFF6 /* MemberListPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

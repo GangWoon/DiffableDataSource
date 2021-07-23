@@ -9,7 +9,7 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     
     func application(
@@ -17,9 +17,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         window = UIWindow()
-        window?.rootViewController = ViewController()
+        let memberListViewController = MemberListViewController()
+        let store = MemberListStore(
+            state: MemberListStore.State(
+                queryString: "",
+                members: [
+                    .dummy, .dummy, .dummy, .dummy,
+                    .dummy, .dummy, .dummy, .dummy
+                ]
+            ),
+            environment: MemberListStore.Environment(dispatch: .main)
+        )
+        store.updateView = memberListViewController.update
+        memberListViewController.dispatch = store.dispath
+        let navigationViewController = UINavigationController(rootViewController: memberListViewController)
+        window?.rootViewController = navigationViewController
         window?.makeKeyAndVisible()
-    
+        
         return true
     }
 }
