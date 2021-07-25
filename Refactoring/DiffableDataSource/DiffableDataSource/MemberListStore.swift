@@ -11,12 +11,19 @@ import Combine
 final class MemberListStore {
     
     struct State: Hashable {
-        var queryString: String?
+        static var empty = Self(
+            queryString: "",
+            members: [],
+            filterd: []
+        )
+        var queryString: String
         var members: [MemberListViewController.Member]
+        var filterd: [MemberListViewController.Member]
     }
     
     struct Environment {
         var dispatch: DispatchQueue
+        var fetchMembers: () -> [MemberListViewController.Member]
     }
     
     struct Reducer {
@@ -28,8 +35,14 @@ final class MemberListStore {
             state: inout State
         ) {
             switch action {
+            
+            case .loadInitialData:
+                state.members = environment.fetchMembers()
+                
             case let .didChangedSearchBar(queryString):
-                state.queryString = queryString
+                state.filterd = state.members
+                    .filter { $0.name.lowercased().contains(queryString.lowercased()) ||
+                        $0.team.description.lowercased().contains(queryString.lowercased()) }
             }
         }
     }
@@ -39,7 +52,7 @@ final class MemberListStore {
         Reducer(environment: environment)
     }
     var updateView: ((MemberListViewController.ViewState) -> Void)?
-    @Published private var state: State
+    @Published private(set) var state: State
     private let environment: Environment
     private var cancellable: AnyCancellable?
     
@@ -51,8 +64,6 @@ final class MemberListStore {
         self.state = state
         self.environment = environment
         cancellable = $state
-            .removeDuplicates()
-            .debounce(for: 0.5, scheduler: environment.dispatch)
             .sink { [weak self] state in
                 self?.updateView?(MemberListViewController.ViewState(state: state))
             }
@@ -66,6 +77,6 @@ final class MemberListStore {
 
 private extension MemberListViewController.ViewState {
     init(state: MemberListStore.State) {
-        members = state.members
+        members = state.filterd.isEmpty ? state.members : state.filterd
     }
 }

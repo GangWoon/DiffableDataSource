@@ -11,13 +11,17 @@ import Combine
 final class MemberListViewController: UITableViewController {
     
     // MARK: - Properties
+    var dispatch: ((Action) -> Void)?
     private var dataSource: UITableViewDiffableDataSource<Section, Member>?
     private let theme: Theme
-    var dispatch: ((Action) -> Void)?
+    private let scheduler: DispatchQueue
+    @Published private var queryString: String = ""
+    private var cancellable: AnyCancellable?
     
     // MARK: - Lifecycle
-    init(_ theme: Theme = .default) {
+    init(_ theme: Theme = .default, scheduler: DispatchQueue) {
         self.theme = theme
+        self.scheduler = scheduler
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,6 +31,7 @@ final class MemberListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dispatch?(.loadInitialData)
         build()
     }
     
@@ -50,6 +55,12 @@ final class MemberListViewController: UITableViewController {
         }
         buildListView()
         buildSearchController()
+        cancellable = $queryString
+            .removeDuplicates()
+            .debounce(for: 0.5, scheduler: scheduler)
+            .sink { [weak self] text in
+                self?.dispatch?(.didChangedSearchBar(text))
+            }
     }
     
     private func buildListView() {
@@ -58,7 +69,7 @@ final class MemberListViewController: UITableViewController {
             forCellReuseIdentifier: MemeberRow.identifier
         )
         tableView.separatorInset.left = .zero
-        tableView.rowHeight = 100
+        tableView.rowHeight = 110
         tableView.tableFooterView = UIView()
         tableView.dataSource = dataSource
     }
@@ -77,7 +88,7 @@ final class MemberListViewController: UITableViewController {
 // MARK: - UISearchResultsUpdating
 extension MemberListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        dispatch?(.didChangedSearchBar(searchController.title))
+        queryString = searchController.searchBar.text ?? ""
     }
 }
 
@@ -94,7 +105,7 @@ extension MemberListViewController {
         }()
         private lazy var nameLabel: UILabel = {
             let label = UILabel()
-            label.font = .systemFont(ofSize: 15, weight: .semibold)
+            label.font = .systemFont(ofSize: 14, weight: .semibold)
             label.translatesAutoresizingMaskIntoConstraints = false
             
             return label
@@ -102,7 +113,7 @@ extension MemberListViewController {
         private lazy var bioLabel: UILabel = {
             let label = UILabel()
             label.numberOfLines = .zero
-            label.font = .systemFont(ofSize: 13, weight: .light)
+            label.font = .systemFont(ofSize: 12, weight: .light)
             label.translatesAutoresizingMaskIntoConstraints = false
             
             return label

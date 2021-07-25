@@ -63,6 +63,7 @@ extension MemberListViewController {
     }
     
     enum Action {
-        case didChangedSearchBar(String?)
+        case loadInitialData
+        case didChangedSearchBar(String)
     }
 }

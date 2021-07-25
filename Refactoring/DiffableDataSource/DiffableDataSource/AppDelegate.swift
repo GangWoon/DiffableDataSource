@@ -16,25 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        let navigationController = buildInitialViewController()
         window = UIWindow()
-        let memberListViewController = MemberListViewController()
-        let store = MemberListStore(
-            state: MemberListStore.State(
-                queryString: "",
-                members: [
-                    .dummy, .dummy, .dummy, .dummy,
-                    .dummy, .dummy, .dummy, .dummy
-                ]
-            ),
-            environment: MemberListStore.Environment(dispatch: .main)
-        )
-        store.updateView = memberListViewController.update
-        memberListViewController.dispatch = store.dispath
-        let navigationViewController = UINavigationController(rootViewController: memberListViewController)
-        window?.rootViewController = navigationViewController
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    private func buildInitialViewController() -> UIViewController {
+        let environment = MemberListStore.Environment(
+            dispatch: .main,
+            fetchMembers: { (0...9).map { _ in MemberListViewController.Member.dummy } }
+        )
+        let store = MemberListStore(state: .empty, environment: environment)
+
+        let memberListViewController = MemberListViewController(scheduler: environment.dispatch)
+        
+        store.updateView = memberListViewController.update
+        memberListViewController.dispatch = store.dispath
+        
+        let navigationViewController = UINavigationController(rootViewController: memberListViewController)
+        
+        return navigationViewController
     }
 }
 

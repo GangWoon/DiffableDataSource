@@ -9,25 +9,49 @@ import XCTest
 @testable import DiffableDataSource
 
 class DiffableDataSourceTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func testLoadInitialData() {
+        let store = MemberListStore(
+            state: .empty,
+            environment: .init(
+                dispatch: .main,
+                fetchMembers: { [.neil] })
+        )
+        store.dispath(.loadInitialData)
+        XCTAssertEqual(store.state.members, [.neil])
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testFilterWithQuery() {
+        let store = MemberListStore(
+            state: .init(
+                queryString: "",
+                members: [.neil, .gangwoon],
+                filterd: []
+            ),
+            environment: .init(
+                dispatch: .main,
+                fetchMembers: { fatalError("Should not be called.") }
+            )
+        )
+        store.dispath(.didChangedSearchBar("neil"))
+        XCTAssertEqual(store.state.filterd, [.neil])
     }
+}
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+private extension MemberListViewController.Member {
+    static let neil = MemberListViewController.Member(
+        id: UUID().uuidString,
+        image: nil,
+        name: "Neil",
+        team: .iOS,
+        bio: ""
+    )
+    
+    static let gangwoon = MemberListViewController.Member(
+        id: UUID().uuidString,
+        image: nil,
+        name: "GangWoon",
+        team: .backend,
+        bio: ""
+    )
 }

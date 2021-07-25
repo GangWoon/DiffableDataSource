@@ -11,7 +11,7 @@ import SwiftUI
 extension String {
     static var name: Self {
         [
-            "Neil", "Gangwoon", "TTozzi", "Sally", "Lin", "Olaf",
+            "Sally", "Neil", "Gangwoon", "TTozzi", "Lin", "Olaf",
             "JK", "Yagom", "Hamil", "Dion", "Lena"
         ]
         .randomElement() ?? ""
