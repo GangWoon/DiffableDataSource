@@ -55,6 +55,7 @@ final class MemberListViewController: UITableViewController {
         }
         buildListView()
         buildSearchController()
+        buildAddMemberItem()
         cancellable = $queryString
             .removeDuplicates()
             .debounce(for: 0.5, scheduler: scheduler)
@@ -81,7 +82,18 @@ final class MemberListViewController: UITableViewController {
         searchController.searchBar.placeholder = theme.placeHodler
         navigationItem.searchController = searchController
         navigationItem.title = theme.navigationTitle
-        
+    }
+    
+    private func buildAddMemberItem() {
+        let action = UIAction { _ in
+            self.dispatch?(.didTapAddMemberButton)
+        }
+        let item = UIBarButtonItem(
+            systemItem: .add,
+            primaryAction: action,
+            menu: nil
+        )
+        navigationItem.rightBarButtonItem = item
     }
 }
 

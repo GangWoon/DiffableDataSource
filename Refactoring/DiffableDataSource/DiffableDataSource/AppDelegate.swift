@@ -25,14 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func buildInitialViewController() -> UIViewController {
+        let mainQueue = DispatchQueue.main
+        let memberListViewController = MemberListViewController(scheduler: mainQueue)
         let environment = MemberListStore.Environment(
-            dispatch: .main,
-            fetchMembers: { (0...9).map { _ in MemberListViewController.Member.dummy } }
+            dispatch: mainQueue,
+            fetchMembers: { (0...9).map { _ in MemberListViewController.Member.dummy } },
+            uuid: { UUID().uuidString },
+            navigator: MemberListStore.Navigator(viewController: memberListViewController)
         )
         let store = MemberListStore(state: .empty, environment: environment)
 
-        let memberListViewController = MemberListViewController(scheduler: environment.dispatch)
-        
         store.updateView = memberListViewController.update
         memberListViewController.dispatch = store.dispath
         

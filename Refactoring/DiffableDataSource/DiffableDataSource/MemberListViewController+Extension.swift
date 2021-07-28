@@ -65,5 +65,7 @@ extension MemberListViewController {
     enum Action {
         case loadInitialData
         case didChangedSearchBar(String)
+        case didTapAddMemberButton
+        case addMember(String, Team)
     }
 }
