@@ -23,12 +23,27 @@ final class MemberListStore {
     
     struct Navigator {
         
-        typealias Item = (String, MemberListViewController.Team)
-        
         let viewController: UIViewController
+        private let subject: PassthroughSubject<(String, Team), Never> = .init()
+        private let alertControllerKey: String = "contentViewController"
         
-        func presentMemberRegisterView() -> AnyPublisher<Item, Never> {
-            let subject = PassthroughSubject<Item, Never>()
+        func presentMemberRegisterView(scheduler: DispatchQueue) -> AnyPublisher<(String, Team), Never> {
+            let alertController = makeAlertController(with: scheduler)
+            viewController.present(
+                alertController,
+                animated: true,
+                completion: nil
+            )
+            
+            return subject
+                .eraseToAnyPublisher()
+        }
+        
+        private func makeAlertController(with scheduler: DispatchQueue) -> UIViewController {
+            let store = AddMemberStore(
+                state: .empty,
+                environment: AddMemberStore.Environment(onDismissSubject: subject)
+            )
             let cancelAction = UIAlertAction(
                 title: "Cancel",
                 style: .destructive,
@@ -36,9 +51,9 @@ final class MemberListStore {
             )
             let addAction = UIAlertAction(
                 title: "Add",
-                style: .destructive
+                style: .default
             ) { _ in
-                subject.send(("Hello", .iOS))
+                store.dispatch(.addMember)
             }
             let alertController = UIAlertController(
                 title: "Add Member",
@@ -48,14 +63,17 @@ final class MemberListStore {
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
             
-            viewController.present(
-                alertController,
-                animated: true,
-                completion: nil
-            )
+            let addmemberViewController = AddMemberViewController(scheduler: scheduler)
+            addmemberViewController.dispatch = store.dispatch
+            store.updateView = addmemberViewController.updateView
             
-            return subject
-                .eraseToAnyPublisher()
+            alertController.setValue(addmemberViewController, forKey: alertControllerKey)
+            addmemberViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                addmemberViewController.view.widthAnchor.constraint(equalToConstant: viewController.view.frame.width * 0.72)
+            ])
+            
+            return alertController
         }
     }
     
@@ -86,7 +104,7 @@ final class MemberListStore {
                         $0.team.description.lowercased().contains(queryString.lowercased()) }
                 
             case .didTapAddMemberButton:
-                return environment.navigator.presentMemberRegisterView()
+                return environment.navigator.presentMemberRegisterView(scheduler: environment.dispatch)
                     .receive(on: environment.dispatch)
                     .map { Action.addMember($0.0, $0.1) }
                     .eraseToAnyPublisher()
@@ -113,7 +131,7 @@ final class MemberListStore {
     var updateView: ((MemberListViewController.ViewState) -> Void)?
     @Published private(set) var state: State
     private let environment: Environment
-    private var cancellables: [AnyCancellable]
+    private var cancellables: Set<AnyCancellable>
     
     // MARK: - Lifecycle
     init(

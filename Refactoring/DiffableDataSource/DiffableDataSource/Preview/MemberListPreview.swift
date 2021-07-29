@@ -23,11 +23,21 @@ struct MemerRowPreView: View {
     }
 }
 
+struct AddMemberPreview: View {
+    var body: some View {
+        WrapViewController(AddMemberViewController(scheduler: .main)) { viewController in
+            viewController.updateView(with: "Frontend")
+        }
+    }
+}
+
 struct MemberListPreview_Previews: PreviewProvider {
     static var previews: some View {
         MemberListPreview()
         MemerRowPreView()
             .previewLayout(.fixed(width: 414, height: 100))
+        AddMemberPreview()
+            .previewLayout(.fixed(width: 400, height: 200))
     }
 }
 

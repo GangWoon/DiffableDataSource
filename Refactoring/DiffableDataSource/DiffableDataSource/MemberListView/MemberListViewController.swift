@@ -15,13 +15,14 @@ final class MemberListViewController: UITableViewController {
     private var dataSource: UITableViewDiffableDataSource<Section, Member>?
     private let theme: Theme
     private let scheduler: DispatchQueue
-    @Published private var queryString: String = ""
+    @Published private var queryString: String
     private var cancellable: AnyCancellable?
     
     // MARK: - Lifecycle
     init(_ theme: Theme = .default, scheduler: DispatchQueue) {
         self.theme = theme
         self.scheduler = scheduler
+        queryString = ""
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -59,8 +60,8 @@ final class MemberListViewController: UITableViewController {
         cancellable = $queryString
             .removeDuplicates()
             .debounce(for: 0.5, scheduler: scheduler)
-            .sink { [weak self] text in
-                self?.dispatch?(.didChangedSearchBar(text))
+            .sink { [weak self] queryString in
+                self?.dispatch?(.didChangedSearchBar(queryString))
             }
     }
     
@@ -117,7 +118,7 @@ extension MemberListViewController {
         }()
         private lazy var nameLabel: UILabel = {
             let label = UILabel()
-            label.font = .systemFont(ofSize: 14, weight: .semibold)
+            label.font = theme.nameFont
             label.translatesAutoresizingMaskIntoConstraints = false
             
             return label
@@ -125,7 +126,7 @@ extension MemberListViewController {
         private lazy var bioLabel: UILabel = {
             let label = UILabel()
             label.numberOfLines = .zero
-            label.font = .systemFont(ofSize: 12, weight: .light)
+            label.font = theme.bioFont
             label.translatesAutoresizingMaskIntoConstraints = false
             
             return label
@@ -133,6 +134,7 @@ extension MemberListViewController {
         
         // MARK: - Properties
         static let identifier: String = "MemeberRow"
+        private let theme: Theme = .default
         
         // MARK: - Lifecycle
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -189,4 +191,13 @@ extension MemberListViewController {
     }
 }
 
-
+extension MemberListViewController.MemeberRow {
+    struct Theme {
+        static let `default` = Self(
+            nameFont: .systemFont(ofSize: 14, weight: .semibold),
+            bioFont: .systemFont(ofSize: 12, weight: .light)
+        )
+        let nameFont: UIFont
+        let bioFont: UIFont
+    }
+}

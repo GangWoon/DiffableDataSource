@@ -22,25 +22,6 @@ extension MemberListViewController {
         case main
     }
     
-    enum Team: CaseIterable, CustomStringConvertible {
-        case iOS
-        case backend
-        case frontend
-        static var dummy: Self {
-            Self.allCases.randomElement() ?? .iOS
-        }
-        var description: String {
-            switch self {
-            case .iOS:
-                return "iOS"
-            case .backend:
-                return "Backend"
-            case .frontend:
-                return "Frontend"
-            }
-        }
-    }
-    
     struct Member: Identifiable, Hashable {
         static var dummy: Self {
             Self(
@@ -67,5 +48,24 @@ extension MemberListViewController {
         case didChangedSearchBar(String)
         case didTapAddMemberButton
         case addMember(String, Team)
+    }
+}
+
+enum Team: Int, CaseIterable, CustomStringConvertible {
+    case iOS
+    case backend
+    case frontend
+    static var dummy: Self {
+        Self.allCases.randomElement() ?? .iOS
+    }
+    var description: String {
+        switch self {
+        case .iOS:
+            return "iOS"
+        case .backend:
+            return "Backend"
+        case .frontend:
+            return "Frontend"
+        }
     }
 }
