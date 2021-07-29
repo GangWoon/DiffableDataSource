@@ -28,11 +28,13 @@ final class MemberListStore {
     struct Navigator: MemberListStoreNavigator {
         
         let viewController: UIViewController
-        private let subject: PassthroughSubject<(String, Team), Never> = .init()
+        
         private let alertControllerKey: String = "contentViewController"
         
         func presentAddMemberView(scheduler: DispatchQueue) -> AnyPublisher<(String, Team), Never> {
-            let alertController = makeAlertController(with: scheduler)
+            let subject: PassthroughSubject<(String, Team), Never> = .init()
+            let alertController = makeAlertController(with: scheduler, subject: subject)
+            
             viewController.present(
                 alertController,
                 animated: true,
@@ -43,7 +45,10 @@ final class MemberListStore {
                 .eraseToAnyPublisher()
         }
         
-        private func makeAlertController(with scheduler: DispatchQueue) -> UIViewController {
+        private func makeAlertController(
+            with scheduler: DispatchQueue,
+            subject: PassthroughSubject<(String, Team), Never>
+        ) -> UIViewController {
             let store = AddMemberStore(
                 state: .empty,
                 environment: AddMemberStore.Environment(onDismissSubject: subject)
