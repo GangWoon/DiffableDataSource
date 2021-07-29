@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dispatch: mainQueue,
             fetchMembers: { (0...9).map { _ in MemberListViewController.Member.dummy } },
             uuid: { UUID().uuidString },
+            image: { .profile },
             navigator: MemberListStore.Navigator(viewController: memberListViewController)
         )
         let store = MemberListStore(state: .empty, environment: environment)
