@@ -14,15 +14,10 @@ final class MemberListViewController: UITableViewController {
     var dispatch: ((Action) -> Void)?
     private var dataSource: UITableViewDiffableDataSource<Section, Member>?
     private let theme: Theme
-    private let scheduler: DispatchQueue
-    @Published private var queryString: String
-    private var cancellable: AnyCancellable?
     
     // MARK: - Lifecycle
-    init(_ theme: Theme = .default, scheduler: DispatchQueue) {
+    init(_ theme: Theme = .default) {
         self.theme = theme
-        self.scheduler = scheduler
-        queryString = ""
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,12 +52,6 @@ final class MemberListViewController: UITableViewController {
         buildListView()
         buildSearchController()
         buildAddMemberItem()
-        cancellable = $queryString
-            .removeDuplicates()
-            .debounce(for: 0.5, scheduler: scheduler)
-            .sink { [weak self] queryString in
-                self?.dispatch?(.didChangedSearchBar(queryString))
-            }
     }
     
     private func buildListView() {
@@ -101,7 +90,7 @@ final class MemberListViewController: UITableViewController {
 // MARK: - UISearchResultsUpdating
 extension MemberListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        queryString = searchController.searchBar.text ?? ""
+        dispatch?(.didChangedSearchBar(searchController.searchBar.text ?? ""))
     }
 }
 

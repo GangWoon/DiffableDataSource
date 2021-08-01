@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MemberListPreview: View {
     var body: some View {
-        WrapViewController(MemberListViewController(scheduler: .main)) { viewController in
+        WrapViewController(MemberListViewController()) { viewController in
             viewController.update(with: MemberListViewController.ViewState(members: [.dummy,.dummy,.dummy]))
         }
     }
@@ -25,7 +25,7 @@ struct MemerRowPreView: View {
 
 struct AddMemberPreview: View {
     var body: some View {
-        WrapViewController(AddMemberViewController(scheduler: .main)) { viewController in
+        WrapViewController(AddMemberViewController()) { viewController in
             viewController.updateView(with: "Frontend")
         }
     }

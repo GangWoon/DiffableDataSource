@@ -10,13 +10,14 @@ import Combine
 
 final class AddMemberStore {
     
-    struct State {
+    struct State: Equatable {
         static var empty = Self(name: "", team: .iOS)
         var name: String
         var team: Team
     }
     
     struct Environment {
+        let scheduler: DispatchQueue
         let onDismissSubject: PassthroughSubject<(String, Team), Never>
     }
     
@@ -58,6 +59,7 @@ final class AddMemberStore {
         self.state = state
         self.environment = environment
         cancellable = $state
+            .removeDuplicates()
             .sink { [weak self] state in
                 self?.updateView?(state.team.description)
             }

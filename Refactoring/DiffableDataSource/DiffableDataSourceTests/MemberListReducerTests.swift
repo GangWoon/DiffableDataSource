@@ -1,6 +1,6 @@
 //
-//  DiffableDataSourceTests.swift
-//  DiffableDataSourceTests
+//  MemberListReducerTests.swift
+//  MemberListReducerTests
 //
 //  Created by Cloud on 2021/07/22.
 //
@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import DiffableDataSource
 
-class DiffableDataSourceTests: XCTestCase {
+class MemberListReducer: XCTestCase {
     
     private var cancellable: AnyCancellable?
     
@@ -17,7 +17,7 @@ class DiffableDataSourceTests: XCTestCase {
         let store = MemberListStore(
             state: .empty,
             environment: .init(
-                dispatch: .main,
+                scheduler: .main,
                 fetchMembers: { [.neil] },
                 uuid: { fatalError("Should not be called.") },
                 image: { fatalError("Should not be called.") },
@@ -36,7 +36,7 @@ class DiffableDataSourceTests: XCTestCase {
                 filterd: []
             ),
             environment: .init(
-                dispatch: .main,
+                scheduler: .main,
                 fetchMembers: { fatalError("Should not be called.") },
                 uuid: { fatalError("Should not be called.") },
                 image: { fatalError("Should not be called.") },
@@ -61,7 +61,7 @@ class DiffableDataSourceTests: XCTestCase {
                 filterd: []
             ),
             environment: .init(
-                dispatch: .main,
+                scheduler: .main,
                 fetchMembers: { fatalError("Should not be called.") },
                 uuid: {
                     return "00001"
@@ -82,7 +82,7 @@ class DiffableDataSourceTests: XCTestCase {
                 filterd: []
             ),
             environment: .init(
-                dispatch: .main,
+                scheduler: .main,
                 fetchMembers: { fatalError("Should not be called.") },
                 uuid: { "00001" },
                 image: { UIImage(systemName: "xmark")! },

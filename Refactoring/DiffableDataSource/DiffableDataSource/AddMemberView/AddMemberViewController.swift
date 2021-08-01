@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 final class AddMemberViewController: UIViewController {
     
@@ -22,15 +21,10 @@ final class AddMemberViewController: UIViewController {
     // MARK: - Properties
     var dispatch: ((Action) -> Void)?
     private let theme: Theme
-    private let scheduler: DispatchQueue
-    @Published private var memberName: String
-    private var cancellable: AnyCancellable?
     
     //MARK: - Lifecycle
-    init(_ theme: Theme = .default, scheduler: DispatchQueue) {
+    init(_ theme: Theme = .default) {
         self.theme = theme
-        self.scheduler = scheduler
-        memberName = ""
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -41,7 +35,6 @@ final class AddMemberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         build()
-        
     }
     
     // MARK: - Methods
@@ -51,12 +44,6 @@ final class AddMemberViewController: UIViewController {
     
     private func build() {
         buildVStack()
-        cancellable = $memberName
-            .removeDuplicates()
-            .debounce(for: 0.5, scheduler: scheduler)
-            .sink { [weak self] name in
-                self?.dispatch?(.didChangeTextField(name))
-            }
     }
     
     private func buildVStack() {
@@ -85,7 +72,7 @@ final class AddMemberViewController: UIViewController {
         let textField = UITextField()
         let action = UIAction { [weak self] action in
             guard let textField = action.sender as? UITextField else { return }
-            self?.memberName = textField.text ?? ""
+            self?.dispatch?(.didChangeTextField(textField.text ?? ""))
         }
         textField.delegate = self
         textField.addAction(action, for: .editingChanged)

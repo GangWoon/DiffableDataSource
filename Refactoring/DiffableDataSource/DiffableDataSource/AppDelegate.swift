@@ -25,10 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func buildInitialViewController() -> UIViewController {
-        let mainQueue = DispatchQueue.main
-        let memberListViewController = MemberListViewController(scheduler: mainQueue)
+        let memberListViewController = MemberListViewController()
         let environment = MemberListStore.Environment(
-            dispatch: mainQueue,
+            scheduler: .main,
             fetchMembers: { (0...9).map { _ in MemberListViewController.Member.dummy } },
             uuid: { UUID().uuidString },
             image: { .profile },

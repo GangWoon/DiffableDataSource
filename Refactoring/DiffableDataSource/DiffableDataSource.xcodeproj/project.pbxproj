@@ -10,7 +10,7 @@
 		AE03F3F426A88917004C12BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F3F326A88917004C12BF /* AppDelegate.swift */; };
 		AE03F3FD26A88918004C12BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE03F3FC26A88918004C12BF /* Assets.xcassets */; };
 		AE03F40026A88918004C12BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE03F3FE26A88918004C12BF /* LaunchScreen.storyboard */; };
-		AE03F40B26A88918004C12BF /* DiffableDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F40A26A88918004C12BF /* DiffableDataSourceTests.swift */; };
+		AE03F40B26A88918004C12BF /* MemberListReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F40A26A88918004C12BF /* MemberListReducerTests.swift */; };
 		AE03F41626A88918004C12BF /* DiffableDataSourceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F41526A88918004C12BF /* DiffableDataSourceUITests.swift */; };
 		AE33B46F26AB2BD100F1619D /* MemberListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE33B46E26AB2BD100F1619D /* MemberListStore.swift */; };
 		AE9DE24726B1B31E005C0475 /* AddMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9DE24626B1B31E005C0475 /* AddMemberViewController.swift */; };
@@ -45,7 +45,7 @@
 		AE03F3FF26A88918004C12BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE03F40126A88918004C12BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE03F40626A88918004C12BF /* DiffableDataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiffableDataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE03F40A26A88918004C12BF /* DiffableDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceTests.swift; sourceTree = "<group>"; };
+		AE03F40A26A88918004C12BF /* MemberListReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListReducerTests.swift; sourceTree = "<group>"; };
 		AE03F40C26A88918004C12BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE03F41126A88918004C12BF /* DiffableDataSourceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiffableDataSourceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE03F41526A88918004C12BF /* DiffableDataSourceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceUITests.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 		AE03F40926A88918004C12BF /* DiffableDataSourceTests */ = {
 			isa = PBXGroup;
 			children = (
-				AE03F40A26A88918004C12BF /* DiffableDataSourceTests.swift */,
+				AE03F40A26A88918004C12BF /* MemberListReducerTests.swift */,
 				AE03F40C26A88918004C12BF /* Info.plist */,
 			);
 			path = DiffableDataSourceTests;
@@ -308,7 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE03F40B26A88918004C12BF /* DiffableDataSourceTests.swift in Sources */,
+				AE03F40B26A88918004C12BF /* MemberListReducerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

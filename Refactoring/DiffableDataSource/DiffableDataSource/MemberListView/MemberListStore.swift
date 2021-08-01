@@ -49,10 +49,15 @@ final class MemberListStore {
             with scheduler: DispatchQueue,
             subject: PassthroughSubject<(String, Team), Never>
         ) -> UIViewController {
+            let addmemberViewController = AddMemberViewController()
             let store = AddMemberStore(
                 state: .empty,
-                environment: AddMemberStore.Environment(onDismissSubject: subject)
+                environment: AddMemberStore.Environment(
+                    scheduler: scheduler,
+                    onDismissSubject: subject
+                )
             )
+            
             let cancelAction = UIAlertAction(
                 title: "Cancel",
                 style: .destructive,
@@ -72,7 +77,6 @@ final class MemberListStore {
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
             
-            let addmemberViewController = AddMemberViewController(scheduler: scheduler)
             addmemberViewController.dispatch = store.dispatch
             store.updateView = addmemberViewController.updateView
             
@@ -87,7 +91,7 @@ final class MemberListStore {
     }
     
     struct Environment {
-        let dispatch: DispatchQueue
+        let scheduler: DispatchQueue
         let fetchMembers: () -> [MemberListViewController.Member]
         let uuid: () -> String
         let image: () -> UIImage
@@ -114,8 +118,8 @@ final class MemberListStore {
                         $0.team.description.lowercased().contains(queryString.lowercased()) }
                 
             case .didTapAddMemberButton:
-                return environment.navigator.presentAddMemberView(scheduler: environment.dispatch)
-                    .receive(on: environment.dispatch)
+                return environment.navigator.presentAddMemberView(scheduler: environment.scheduler)
+                    .receive(on: environment.scheduler)
                     .map { Action.addMember($0.0, $0.1) }
                     .eraseToAnyPublisher()
                 
@@ -152,6 +156,8 @@ final class MemberListStore {
         self.environment = environment
         self.cancellables = []
         $state
+            .removeDuplicates()
+            .subscribe(on: environment.scheduler)
             .sink { [weak self] state in
                 self?.updateView?(MemberListViewController.ViewState(state: state))
             }
@@ -163,7 +169,7 @@ final class MemberListStore {
         reducer.reduce(action, state: &state)
             .map { effect in
                 effect
-                    .receive(on: environment.dispatch)
+                    .receive(on: environment.scheduler)
                     .sink(receiveValue: dispath)
                     .store(in: &cancellables)
             }
