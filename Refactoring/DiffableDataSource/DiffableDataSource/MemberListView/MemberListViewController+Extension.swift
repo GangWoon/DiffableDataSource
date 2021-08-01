@@ -43,7 +43,7 @@ extension MemberListViewController {
         var members: [Member]
     }
     
-    enum Action {
+    enum Action: Equatable {
         case loadInitialData
         case didChangedSearchBar(String)
         case didTapAddMemberButton

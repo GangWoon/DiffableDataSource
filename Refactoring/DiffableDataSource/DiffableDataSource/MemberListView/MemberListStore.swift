@@ -103,6 +103,7 @@ final class MemberListStore {
         typealias Action = MemberListViewController.Action
         let environment: Environment
         
+        @discardableResult
         func reduce(
             _ action: Action,
             state: inout State
