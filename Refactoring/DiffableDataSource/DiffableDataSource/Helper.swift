@@ -66,8 +66,8 @@ extension UIImage {
     }
 }
 
-struct WrapViewController<Wrapped: UIViewController>: UIViewControllerRepresentable {
-    
+struct WrappedViewController<Wrapped: UIViewController>: UIViewControllerRepresentable {
+   
     private let viewController: Wrapped
     private var update: (Wrapped) -> Void
     
@@ -85,10 +85,10 @@ struct WrapViewController<Wrapped: UIViewController>: UIViewControllerRepresenta
     }
 }
 
-struct WrapView<Wrapped: UIView>: UIViewRepresentable {
+struct WrappedView<Wrapped: UIView>: UIViewRepresentable {
     
     private let view: Wrapped
-    private var update: (Wrapped) -> Void
+    private let update: (Wrapped) -> Void
     
     init(_ view: Wrapped, update: @escaping (Wrapped) -> Void) {
         self.view = view

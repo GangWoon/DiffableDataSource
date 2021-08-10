@@ -32,6 +32,10 @@ final class MemberListViewController: UITableViewController {
     }
     
     // MARK: - Methods
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dispatch?(.didSelectMember(row: indexPath.row))
+    }
+    
     func update(with state: ViewState) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, Member>()
         snapShot.appendSections([.main])
@@ -90,10 +94,11 @@ final class MemberListViewController: UITableViewController {
 // MARK: - UISearchResultsUpdating
 extension MemberListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        dispatch?(.didChangedSearchBar(searchController.searchBar.text ?? ""))
+        dispatch?(.didChangedSearchBar(query: searchController.searchBar.text ?? ""))
     }
 }
 
+// MARK: - MemeberRow
 extension MemberListViewController {
     final class MemeberRow: UITableViewCell {
         

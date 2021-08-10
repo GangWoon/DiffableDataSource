@@ -16,11 +16,6 @@ final class AddMemberStore {
         var team: Team
     }
     
-    struct Environment {
-        let scheduler: DispatchQueue
-        let onDismissSubject: PassthroughSubject<(String, Team), Never>
-    }
-    
     struct Reducer {
         
         typealias Action = AddMemberViewController.Action
@@ -28,7 +23,7 @@ final class AddMemberStore {
         
         func reduce(_ action: Action, state: inout State) {
             switch action {
-            
+                
             case let .didChangeTextField(name):
                 state.name = name
                 
@@ -42,13 +37,18 @@ final class AddMemberStore {
         }
     }
     
+    struct Environment {
+        let scheduler: DispatchQueue
+        let onDismissSubject: PassthroughSubject<(String, Team), Never>
+    }
+    
     //MARK: - Properties
     private var reducer: Reducer {
         Reducer(environment: environment)
     }
     var updateView: ((String) -> Void)?
-    private let environment: Environment
     @Published private(set) var state: State
+    private let environment: Environment
     private var cancellable: AnyCancellable?
     
     // MARK: - Lifecycle

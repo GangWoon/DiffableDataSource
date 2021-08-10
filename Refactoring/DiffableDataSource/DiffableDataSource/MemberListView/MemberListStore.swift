@@ -9,7 +9,8 @@ import UIKit
 import Combine
 
 protocol MemberListStoreNavigator {
-    func presentAddMemberView(scheduler: DispatchQueue) -> AnyPublisher<(String, Team), Never>
+    func presentAddMemberView() -> AnyPublisher<(String, Team), Never>
+    func presentDetailMemberView(member: MemberListViewController.Member) -> AnyPublisher<(UIImage?, String?), Never>
 }
 
 final class MemberListStore {
@@ -27,14 +28,23 @@ final class MemberListStore {
     
     struct Navigator: MemberListStoreNavigator {
         
-        let viewController: UIViewController
+        struct Container {
+            let scheduler: DispatchQueue
+        }
         
+        let viewController: UIViewController
+        let container: Container
         private let alertControllerKey: String = "contentViewController"
         
-        func presentAddMemberView(scheduler: DispatchQueue) -> AnyPublisher<(String, Team), Never> {
-            let subject: PassthroughSubject<(String, Team), Never> = .init()
-            let alertController = makeAlertController(with: scheduler, subject: subject)
+        init(viewController: UIViewController, container: Container) {
+            self.viewController = viewController
+            self.container = container
+        }
+        
+        func presentAddMemberView() -> AnyPublisher<(String, Team), Never> {
+            let subject = PassthroughSubject<(String, Team), Never>()
             
+            let alertController = makeAlertController(subject: subject)
             viewController.present(
                 alertController,
                 animated: true,
@@ -45,15 +55,42 @@ final class MemberListStore {
                 .eraseToAnyPublisher()
         }
         
-        private func makeAlertController(
-            with scheduler: DispatchQueue,
-            subject: PassthroughSubject<(String, Team), Never>
-        ) -> UIViewController {
+        func presentDetailMemberView(member: MemberListViewController.Member) -> AnyPublisher<(UIImage?, String?), Never> {
+            let subject = PassthroughSubject<(UIImage?, String?), Never>()
+            
+            let detailViewController = DetailMemberViewController()
+            let state = DetailMemberViewController.ViewState(
+                profile: member.image,
+                name: member.name,
+                team: member.team.description,
+                bio: member.bio
+            )
+            let environment = DetailMemberStore.Environment(
+                dismissSubject: subject,
+                scheduler: container.scheduler
+            )
+            let store = DetailMemberStore(state: state, environment: environment)
+            
+            detailViewController.dispatch = store.dispatch
+            store.updateView = detailViewController.update
+            viewController.show(detailViewController, sender: viewController)
+            
+            return subject
+                .map { item in
+                    viewController.navigationController?.isNavigationBarHidden.toggle()
+                    viewController.navigationController?.popViewController(animated: true)
+                    
+                    return item
+                }
+                .eraseToAnyPublisher()
+        }
+        
+        private func makeAlertController(subject: PassthroughSubject<(String, Team), Never>) -> UIViewController {
             let addmemberViewController = AddMemberViewController()
             let store = AddMemberStore(
                 state: .empty,
                 environment: AddMemberStore.Environment(
-                    scheduler: scheduler,
+                    scheduler: container.scheduler,
                     onDismissSubject: subject
                 )
             )
@@ -109,7 +146,7 @@ final class MemberListStore {
             state: inout State
         ) -> AnyPublisher<Action, Never>? {
             switch action {
-            
+                
             case .loadInitialData:
                 state.members = environment.fetchMembers()
                 
@@ -119,9 +156,9 @@ final class MemberListStore {
                         $0.team.description.lowercased().contains(queryString.lowercased()) }
                 
             case .didTapAddMemberButton:
-                return environment.navigator.presentAddMemberView(scheduler: environment.scheduler)
+                return environment.navigator.presentAddMemberView()
                     .receive(on: environment.scheduler)
-                    .map { Action.addMember($0.0, $0.1) }
+                    .map { Action.addMember(name: $0.0, team: $0.1) }
                     .eraseToAnyPublisher()
                 
             case let .addMember(name, team):
@@ -133,6 +170,16 @@ final class MemberListStore {
                     bio: ""
                 )
                 state.members.insert(newMember, at: .zero)
+            case let .didSelectMember(row):
+                let member = state.members[row]
+                return environment.navigator.presentDetailMemberView(member: member)
+                    .receive(on: environment.scheduler)
+                    .map { Action.editMember(row: row, profile: $0.0, bio: $0.1) }
+                    .eraseToAnyPublisher()
+                
+            case let .editMember(row: row, profile: profile, bio: bio):
+                state.members[row].image = profile
+                state.members[row].bio = bio
             }
             
             return nil

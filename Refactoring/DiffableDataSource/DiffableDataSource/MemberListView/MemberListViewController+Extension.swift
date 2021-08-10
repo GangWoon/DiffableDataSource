@@ -18,6 +18,19 @@ extension MemberListViewController {
         let placeHodler: String
     }
     
+    enum Action: Equatable {
+        case loadInitialData
+        case didChangedSearchBar(query: String)
+        case didTapAddMemberButton
+        case addMember(name: String, team: Team)
+        case didSelectMember(row: Int)
+        case editMember(row: Int, profile: UIImage?, bio: String?)
+    }
+    
+    struct ViewState {
+        var members: [Member]
+    }
+    
     enum Section {
         case main
     }
@@ -36,25 +49,16 @@ extension MemberListViewController {
         var image: UIImage?
         var name: String
         var team: Team
-        var bio: String
-    }
-    
-    struct ViewState {
-        var members: [Member]
-    }
-    
-    enum Action: Equatable {
-        case loadInitialData
-        case didChangedSearchBar(String)
-        case didTapAddMemberButton
-        case addMember(String, Team)
+        var bio: String?
     }
 }
 
 enum Team: Int, CaseIterable, CustomStringConvertible {
+    
     case iOS
     case backend
     case frontend
+    
     static var dummy: Self {
         Self.allCases.randomElement() ?? .iOS
     }
