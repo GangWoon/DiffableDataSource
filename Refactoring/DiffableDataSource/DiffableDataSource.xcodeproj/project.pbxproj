@@ -11,7 +11,6 @@
 		AE03F3FD26A88918004C12BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE03F3FC26A88918004C12BF /* Assets.xcassets */; };
 		AE03F40026A88918004C12BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE03F3FE26A88918004C12BF /* LaunchScreen.storyboard */; };
 		AE03F40B26A88918004C12BF /* MemberListReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F40A26A88918004C12BF /* MemberListReducerTests.swift */; };
-		AE03F41626A88918004C12BF /* DiffableDataSourceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE03F41526A88918004C12BF /* DiffableDataSourceUITests.swift */; };
 		AE06C9B126B6CDF30082791C /* AddMemberReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE06C9B026B6CDF30082791C /* AddMemberReducerTests.swift */; };
 		AE06C9B426B6EE160082791C /* DetailMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE06C9B326B6EE160082791C /* DetailMemberViewController.swift */; };
 		AE33B46F26AB2BD100F1619D /* MemberListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE33B46E26AB2BD100F1619D /* MemberListStore.swift */; };
@@ -36,13 +35,6 @@
 			remoteGlobalIDString = AE03F3EF26A88917004C12BF;
 			remoteInfo = DiffableDataSource;
 		};
-		AE03F41226A88918004C12BF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AE03F3E826A88917004C12BF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AE03F3EF26A88917004C12BF;
-			remoteInfo = DiffableDataSource;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -54,9 +46,6 @@
 		AE03F40626A88918004C12BF /* DiffableDataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiffableDataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE03F40A26A88918004C12BF /* MemberListReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListReducerTests.swift; sourceTree = "<group>"; };
 		AE03F40C26A88918004C12BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AE03F41126A88918004C12BF /* DiffableDataSourceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiffableDataSourceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE03F41526A88918004C12BF /* DiffableDataSourceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceUITests.swift; sourceTree = "<group>"; };
-		AE03F41726A88918004C12BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE06C9B026B6CDF30082791C /* AddMemberReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberReducerTests.swift; sourceTree = "<group>"; };
 		AE06C9B326B6EE160082791C /* DetailMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMemberViewController.swift; sourceTree = "<group>"; };
 		AE33B46E26AB2BD100F1619D /* MemberListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListStore.swift; sourceTree = "<group>"; };
@@ -88,13 +77,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AE03F40E26A88918004C12BF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -103,7 +85,6 @@
 			children = (
 				AE03F3F226A88917004C12BF /* DiffableDataSource */,
 				AE03F40926A88918004C12BF /* DiffableDataSourceTests */,
-				AE03F41426A88918004C12BF /* DiffableDataSourceUITests */,
 				AE03F3F126A88917004C12BF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,7 +94,6 @@
 			children = (
 				AE03F3F026A88917004C12BF /* DiffableDataSource.app */,
 				AE03F40626A88918004C12BF /* DiffableDataSourceTests.xctest */,
-				AE03F41126A88918004C12BF /* DiffableDataSourceUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,15 +124,6 @@
 			path = DiffableDataSourceTests;
 			sourceTree = "<group>";
 		};
-		AE03F41426A88918004C12BF /* DiffableDataSourceUITests */ = {
-			isa = PBXGroup;
-			children = (
-				AE03F41526A88918004C12BF /* DiffableDataSourceUITests.swift */,
-				AE03F41726A88918004C12BF /* Info.plist */,
-			);
-			path = DiffableDataSourceUITests;
-			sourceTree = "<group>";
-		};
 		AE06C9B226B6EDEE0082791C /* DetailMemberView */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,9 +137,9 @@
 		AE9DE24A26B3071D005C0475 /* AddMemberView */ = {
 			isa = PBXGroup;
 			children = (
-				AE9DE24826B2CE21005C0475 /* AddMemberStore.swift */,
 				AE9DE24626B1B31E005C0475 /* AddMemberViewController.swift */,
 				AED937FA26C2E76E000E4BC0 /* AddMemberViewController+Extension.swift */,
+				AE9DE24826B2CE21005C0475 /* AddMemberStore.swift */,
 			);
 			path = AddMemberView;
 			sourceTree = "<group>";
@@ -231,24 +202,6 @@
 			productReference = AE03F40626A88918004C12BF /* DiffableDataSourceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AE03F41026A88918004C12BF /* DiffableDataSourceUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AE03F42026A88918004C12BF /* Build configuration list for PBXNativeTarget "DiffableDataSourceUITests" */;
-			buildPhases = (
-				AE03F40D26A88918004C12BF /* Sources */,
-				AE03F40E26A88918004C12BF /* Frameworks */,
-				AE03F40F26A88918004C12BF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AE03F41326A88918004C12BF /* PBXTargetDependency */,
-			);
-			name = DiffableDataSourceUITests;
-			productName = DiffableDataSourceUITests;
-			productReference = AE03F41126A88918004C12BF /* DiffableDataSourceUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -262,10 +215,6 @@
 						CreatedOnToolsVersion = 12.5.1;
 					};
 					AE03F40526A88918004C12BF = {
-						CreatedOnToolsVersion = 12.5.1;
-						TestTargetID = AE03F3EF26A88917004C12BF;
-					};
-					AE03F41026A88918004C12BF = {
 						CreatedOnToolsVersion = 12.5.1;
 						TestTargetID = AE03F3EF26A88917004C12BF;
 					};
@@ -286,7 +235,6 @@
 			targets = (
 				AE03F3EF26A88917004C12BF /* DiffableDataSource */,
 				AE03F40526A88918004C12BF /* DiffableDataSourceTests */,
-				AE03F41026A88918004C12BF /* DiffableDataSourceUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -302,13 +250,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AE03F40426A88918004C12BF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AE03F40F26A88918004C12BF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -348,14 +289,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AE03F40D26A88918004C12BF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AE03F41626A88918004C12BF /* DiffableDataSourceUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -363,11 +296,6 @@
 			isa = PBXTargetDependency;
 			target = AE03F3EF26A88917004C12BF /* DiffableDataSource */;
 			targetProxy = AE03F40726A88918004C12BF /* PBXContainerItemProxy */;
-		};
-		AE03F41326A88918004C12BF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AE03F3EF26A88917004C12BF /* DiffableDataSource */;
-			targetProxy = AE03F41226A88918004C12BF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -581,46 +509,6 @@
 			};
 			name = Release;
 		};
-		AE03F42126A88918004C12BF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6HG325P9V2;
-				INFOPLIST_FILE = DiffableDataSourceUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = cLoud.DiffableDataSourceUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DiffableDataSource;
-			};
-			name = Debug;
-		};
-		AE03F42226A88918004C12BF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6HG325P9V2;
-				INFOPLIST_FILE = DiffableDataSourceUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = cLoud.DiffableDataSourceUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DiffableDataSource;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -647,15 +535,6 @@
 			buildConfigurations = (
 				AE03F41E26A88918004C12BF /* Debug */,
 				AE03F41F26A88918004C12BF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AE03F42026A88918004C12BF /* Build configuration list for PBXNativeTarget "DiffableDataSourceUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AE03F42126A88918004C12BF /* Debug */,
-				AE03F42226A88918004C12BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
