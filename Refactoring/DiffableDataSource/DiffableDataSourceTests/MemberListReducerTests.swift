@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import DiffableDataSource
 
-class MemberListReducer: XCTestCase {
+final class MemberListReducer: XCTestCase {
     
     private var cancellable: AnyCancellable?
     
@@ -187,7 +187,7 @@ private extension MemberListViewController.Member {
     )
 }
 
-struct MockNavigator: MemberListStoreNavigator {
+private struct MockNavigator: MemberListStoreNavigator {
     
     var handler: (() -> Void)?
     var addMemberSubject: PassthroughSubject<(String, Team), Never> = .init()

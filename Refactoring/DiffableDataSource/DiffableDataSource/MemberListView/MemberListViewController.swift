@@ -153,7 +153,6 @@ extension MemberListViewController {
         
         private func buildHStack(with vStack: UIStackView) {
             let hStack = UIStackView()
-            hStack.axis = .horizontal
             hStack.spacing = 8
             hStack.addArrangedSubview(profileImageView)
             hStack.addArrangedSubview(vStack)

@@ -13,11 +13,13 @@ extension DetailMemberViewController {
         static let `default` = Self(
             titleFont: .systemFont(ofSize: 16, weight: .bold),
             detailFont: .systemFont(ofSize: 14, weight: .light),
+            backgroundColor: .white,
             textViewBorderColor: .secondarySystemFill,
             backButtonImage: UIImage(systemName: "chevron.backward")
         )
         let titleFont: UIFont
         let detailFont: UIFont
+        let backgroundColor: UIColor
         let textViewBorderColor: UIColor
         let backButtonImage: UIImage?
     }

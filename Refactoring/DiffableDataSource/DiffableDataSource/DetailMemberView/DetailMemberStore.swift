@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class DetailMemberStore {
+final class DetailMemberStore {
     
     struct Environment {
         let dismissSubject: PassthroughSubject<(UIImage?, String?), Never>

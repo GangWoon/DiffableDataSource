@@ -55,9 +55,7 @@ final class DetailMemberViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         build()
-        navigationController?.isNavigationBarHidden = true
     }
     
     // MARK: - Methods
@@ -69,6 +67,8 @@ final class DetailMemberViewController: UIViewController {
     }
     
     private func build() {
+        view.backgroundColor = theme.backgroundColor
+        navigationController?.isNavigationBarHidden.toggle()
         buildCustomNavigationItem()
         buildVStack()
         buildProfileButton()

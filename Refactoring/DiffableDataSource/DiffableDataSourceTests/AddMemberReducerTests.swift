@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import DiffableDataSource
 
-class AddMemberReducerTests: XCTestCase {
+final class AddMemberReducerTests: XCTestCase {
     
     private var cancellable: AnyCancellable?
     

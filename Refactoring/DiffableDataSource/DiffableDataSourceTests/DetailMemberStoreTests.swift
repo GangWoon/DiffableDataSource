@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import DiffableDataSource
 
-class DetailMemberStoreTests: XCTestCase {
+final class DetailMemberStoreTests: XCTestCase {
     
     private var cancellable: AnyCancellable?
     
