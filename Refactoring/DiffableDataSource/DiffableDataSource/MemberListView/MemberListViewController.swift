@@ -33,7 +33,7 @@ final class MemberListViewController: UITableViewController {
     
     // MARK: - Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dispatch?(.didSelectMember(row: indexPath.row))
+        dispatch?(.memberRowTapped(row: indexPath.row))
     }
     
     func update(with state: ViewState) {
@@ -80,7 +80,7 @@ final class MemberListViewController: UITableViewController {
     
     private func buildAddMemberItem() {
         let action = UIAction { _ in
-            self.dispatch?(.didTapAddMemberButton)
+            self.dispatch?(.addMemberButtonTapped)
         }
         let item = UIBarButtonItem(
             systemItem: .add,
@@ -94,7 +94,7 @@ final class MemberListViewController: UITableViewController {
 // MARK: - UISearchResultsUpdating
 extension MemberListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        dispatch?(.didChangedSearchBar(query: searchController.searchBar.text ?? ""))
+        dispatch?(.searchBarChanged(query: searchController.searchBar.text ?? ""))
     }
 }
 

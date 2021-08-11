@@ -20,10 +20,10 @@ extension MemberListViewController {
     
     enum Action: Equatable {
         case loadInitialData
-        case didChangedSearchBar(query: String)
-        case didTapAddMemberButton
+        case searchBarChanged(query: String)
+        case addMemberButtonTapped
         case addMember(name: String, team: Team)
-        case didSelectMember(row: Int)
+        case memberRowTapped(row: Int)
         case editMember(row: Int, profile: UIImage?, bio: String?)
     }
     

@@ -182,6 +182,6 @@ extension DetailMemberViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        dispatch?(.textViewTextChanged(textView.text))
+        dispatch?(.textViewChanged(textView.text))
     }
 }

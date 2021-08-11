@@ -13,6 +13,7 @@ class DetailMemberStore {
     struct Environment {
         let dismissSubject: PassthroughSubject<(UIImage?, String?), Never>
         let scheduler: DispatchQueue
+        let replaceProfileImage: (() -> UIImage?)
     }
     
     struct Reducer {
@@ -26,9 +27,9 @@ class DetailMemberStore {
             switch action {
                 
             case .profileImageTapped:
-                state.profile = .profile
+                state.profile = environment.replaceProfileImage()
                 
-            case let .textViewTextChanged(text):
+            case let .textViewChanged(text):
                 state.bio = text
                 
             case .backButtonTapped:

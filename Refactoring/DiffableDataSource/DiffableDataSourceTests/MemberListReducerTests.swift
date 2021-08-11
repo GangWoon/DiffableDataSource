@@ -27,7 +27,7 @@ class MemberListReducer: XCTestCase {
         XCTAssertEqual(state.members, [.neil])
     }
     
-    func testDidChangedSearchBar_noEffect() {
+    func testSearchBarChanged_noEffect() {
         let environment = MemberListStore.Environment(
             scheduler: .main,
             fetchMembers: { fatalError("Should not be called.") },
@@ -41,11 +41,11 @@ class MemberListReducer: XCTestCase {
             members: [.neil, .gangwoon],
             filterd: []
         )
-        reducer.reduce(.didChangedSearchBar("neil"), state: &state)
+        reducer.reduce(.searchBarChanged(query: "neil"), state: &state)
         XCTAssertEqual(state.filterd, [.neil])
     }
     
-    func testTapAddMemberButton_noEffect() {
+    func testAddMemberButtonTapped_noEffect() {
         let exp = expectation(description: "present AddMemberView")
         let subject = PassthroughSubject<(String, Team), Never>()
         let environment = MemberListStore.Environment(
@@ -57,30 +57,30 @@ class MemberListReducer: XCTestCase {
                 handler: {
                     exp.fulfill()
                 },
-                subject: subject
+                addMemberSubject: subject
             )
         )
         let reducer = MemberListStore.Reducer(environment: environment)
         var state = MemberListStore.State.empty
-        reducer.reduce(.didTapAddMemberButton, state: &state)
+        reducer.reduce(.addMemberButtonTapped, state: &state)
         wait(for: [exp], timeout: 1)
     }
     
-    func testTapAddMemberButton_1Effect() {
+    func testAddMemberButtonTapped_1Effect() {
         let subject = PassthroughSubject<(String, Team), Never>()
         let environment = MemberListStore.Environment(
             scheduler: .main,
             fetchMembers: { fatalError("Should not be called.") },
             uuid: { fatalError("Should not be called.") },
             image: { fatalError("Should not be called.") },
-            navigator: MockNavigator(subject: subject)
+            navigator: MockNavigator(addMemberSubject: subject)
         )
         let reducer = MemberListStore.Reducer(environment: environment)
         var state = MemberListStore.State.empty
-        let effect = reducer.reduce(.didTapAddMemberButton, state: &state)
+        let effect = reducer.reduce(.addMemberButtonTapped, state: &state)
         cancellable = effect?
             .sink(receiveValue: { action in
-                XCTAssertEqual(action, MemberListViewController.Action.addMember("", .iOS))
+                XCTAssertEqual(action, MemberListViewController.Action.addMember(name: "", team: .iOS))
             })
         subject.send(("Lin", .iOS))
     }
@@ -103,8 +103,69 @@ class MemberListReducer: XCTestCase {
         
         let reducer = MemberListStore.Reducer(environment: environment)
         var state = MemberListStore.State.empty
-        reducer.reduce(.addMember("Neil", .backend), state: &state)
+        reducer.reduce(.addMember(name: "Neil", team: .backend), state: &state)
         XCTAssertEqual(state.members.first!, neil)
+    }
+    
+    func testMemberRowTapped_noEffect() {
+        let exp = expectation(description: "MemberRowTapped_noEffect")
+        let navigator = MockNavigator(
+            handler: { exp.fulfill() },
+            detailMemberSubejct: .init()
+        )
+        let environment = MemberListStore.Environment(
+            scheduler: .main,
+            fetchMembers: { fatalError("Should not be called.") },
+            uuid: { fatalError("Should not be called.") },
+            image: { fatalError("Should not be called.") },
+            navigator: navigator
+        )
+        let reducer = MemberListStore.Reducer(environment: environment)
+        var state = MemberListStore.State.empty
+        state.members = [.gangwoon]
+        reducer.reduce(.memberRowTapped(row: .zero), state: &state)
+        wait(for: [exp], timeout: 1)
+    }
+    
+    func testMemberRowTapped_1Effect() {
+        let subject = PassthroughSubject<(UIImage?, String?), Never>()
+        let navigator = MockNavigator(detailMemberSubejct: subject)
+        let environment = MemberListStore.Environment(
+            scheduler: .main,
+            fetchMembers: { fatalError("Should not be called.") },
+            uuid: { fatalError("Should not be called.") },
+            image: { fatalError("Should not be called.") },
+            navigator: navigator
+        )
+        let reducer = MemberListStore.Reducer(environment: environment)
+        var state = MemberListStore.State.empty
+        state.members = [.gangwoon]
+        let effect = reducer.reduce(.memberRowTapped(row: .zero), state: &state)
+        let dummyImage = UIImage(systemName: "xmark")
+        let dummyBio = "Hello"
+        cancellable = effect?
+            .sink(receiveValue: { action in
+                XCTAssertEqual(action, MemberListViewController.Action.editMember(row: .zero, profile: dummyImage, bio: dummyBio))
+            })
+        subject.send((dummyImage, dummyBio))
+    }
+    
+    func testEditMember_noEffect() {
+        let environment = MemberListStore.Environment(
+            scheduler: .main,
+            fetchMembers: { fatalError("Should not be called.") },
+            uuid: { fatalError("Should not be called.") },
+            image: { fatalError("Should not be called.") },
+            navigator: MockNavigator()
+        )
+        let reducer = MemberListStore.Reducer(environment: environment)
+        var state = MemberListStore.State.empty
+        state.members = [.neil]
+        let dummyImage = UIImage(systemName: "xmark")
+        let dummyBio = "Hello"
+        reducer.reduce(.editMember(row: .zero, profile: dummyImage, bio: dummyBio), state: &state)
+        XCTAssertEqual(state.members.first?.image, dummyImage)
+        XCTAssertEqual(state.members.first?.bio, dummyBio)
     }
 }
 
@@ -129,11 +190,18 @@ private extension MemberListViewController.Member {
 struct MockNavigator: MemberListStoreNavigator {
     
     var handler: (() -> Void)?
-    var subject: PassthroughSubject<(String, Team), Never>?
+    var addMemberSubject: PassthroughSubject<(String, Team), Never> = .init()
+    var detailMemberSubejct: PassthroughSubject<(UIImage?, String?), Never> = .init()
     
-    func presentAddMemberView(scheduler: DispatchQueue) -> AnyPublisher<(String, Team), Never> {
+    func presentAddMemberView() -> AnyPublisher<(String, Team), Never> {
         handler?()
-        return subject!
+        return addMemberSubject
+            .eraseToAnyPublisher()
+    }
+    
+    func presentDetailMemberView(member: MemberListViewController.Member) -> AnyPublisher<(UIImage?, String?), Never> {
+        handler?()
+        return detailMemberSubejct
             .eraseToAnyPublisher()
     }
 }

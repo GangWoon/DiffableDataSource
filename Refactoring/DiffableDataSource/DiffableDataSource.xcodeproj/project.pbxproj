@@ -16,6 +16,7 @@
 		AE33B46F26AB2BD100F1619D /* MemberListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE33B46E26AB2BD100F1619D /* MemberListStore.swift */; };
 		AE9DE24726B1B31E005C0475 /* AddMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9DE24626B1B31E005C0475 /* AddMemberViewController.swift */; };
 		AE9DE24926B2CE21005C0475 /* AddMemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9DE24826B2CE21005C0475 /* AddMemberStore.swift */; };
+		AEBA7BD826C42217000F071E /* DetailMemberStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBA7BD726C42217000F071E /* DetailMemberStoreTests.swift */; };
 		AEC5428026BC2AA0004DD716 /* DetailMemberPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC5427F26BC2AA0004DD716 /* DetailMemberPreview.swift */; };
 		AED937F926C2E1EE000E4BC0 /* AddMemberPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED937F826C2E1EE000E4BC0 /* AddMemberPreview.swift */; };
 		AED937FB26C2E76E000E4BC0 /* AddMemberViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED937FA26C2E76E000E4BC0 /* AddMemberViewController+Extension.swift */; };
@@ -51,6 +52,7 @@
 		AE33B46E26AB2BD100F1619D /* MemberListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListStore.swift; sourceTree = "<group>"; };
 		AE9DE24626B1B31E005C0475 /* AddMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewController.swift; sourceTree = "<group>"; };
 		AE9DE24826B2CE21005C0475 /* AddMemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberStore.swift; sourceTree = "<group>"; };
+		AEBA7BD726C42217000F071E /* DetailMemberStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMemberStoreTests.swift; sourceTree = "<group>"; };
 		AEC5427F26BC2AA0004DD716 /* DetailMemberPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMemberPreview.swift; sourceTree = "<group>"; };
 		AED937F826C2E1EE000E4BC0 /* AddMemberPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberPreview.swift; sourceTree = "<group>"; };
 		AED937FA26C2E76E000E4BC0 /* AddMemberViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddMemberViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				AE03F40A26A88918004C12BF /* MemberListReducerTests.swift */,
 				AE06C9B026B6CDF30082791C /* AddMemberReducerTests.swift */,
+				AEBA7BD726C42217000F071E /* DetailMemberStoreTests.swift */,
 				AE03F40C26A88918004C12BF /* Info.plist */,
 			);
 			path = DiffableDataSourceTests;
@@ -286,6 +289,7 @@
 			files = (
 				AE06C9B126B6CDF30082791C /* AddMemberReducerTests.swift in Sources */,
 				AE03F40B26A88918004C12BF /* MemberListReducerTests.swift in Sources */,
+				AEBA7BD826C42217000F071E /* DetailMemberStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

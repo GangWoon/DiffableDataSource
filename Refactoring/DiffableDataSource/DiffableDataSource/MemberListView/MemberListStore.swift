@@ -67,7 +67,8 @@ final class MemberListStore {
             )
             let environment = DetailMemberStore.Environment(
                 dismissSubject: subject,
-                scheduler: container.scheduler
+                scheduler: container.scheduler,
+                replaceProfileImage: { .profile }
             )
             let store = DetailMemberStore(state: state, environment: environment)
             
@@ -150,12 +151,12 @@ final class MemberListStore {
             case .loadInitialData:
                 state.members = environment.fetchMembers()
                 
-            case let .didChangedSearchBar(queryString):
+            case let .searchBarChanged(queryString):
                 state.filterd = state.members
                     .filter { $0.name.lowercased().contains(queryString.lowercased()) ||
                         $0.team.description.lowercased().contains(queryString.lowercased()) }
                 
-            case .didTapAddMemberButton:
+            case .addMemberButtonTapped:
                 return environment.navigator.presentAddMemberView()
                     .receive(on: environment.scheduler)
                     .map { Action.addMember(name: $0.0, team: $0.1) }
@@ -170,7 +171,7 @@ final class MemberListStore {
                     bio: ""
                 )
                 state.members.insert(newMember, at: .zero)
-            case let .didSelectMember(row):
+            case let .memberRowTapped(row):
                 let member = state.members[row]
                 return environment.navigator.presentDetailMemberView(member: member)
                     .receive(on: environment.scheduler)

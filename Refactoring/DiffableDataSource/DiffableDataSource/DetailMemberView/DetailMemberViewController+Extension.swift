@@ -24,7 +24,7 @@ extension DetailMemberViewController {
     
     enum Action {
         case profileImageTapped
-        case textViewTextChanged(String)
+        case textViewChanged(String)
         case backButtonTapped
     }
     
