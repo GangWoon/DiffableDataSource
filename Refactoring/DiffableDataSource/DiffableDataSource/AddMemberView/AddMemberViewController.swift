@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class AddMemberViewController: UIViewController {
     
@@ -19,12 +20,15 @@ final class AddMemberViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    var dispatch: ((Action) -> Void)?
+    let updateSubject: PassthroughSubject<String, Never>
+    var dispatchSubject: AddMemberViewActionDispatcher?
     private let theme: Theme
+    private var cancellable: AnyCancellable?
     
     //MARK: - Lifecycle
     init(_ theme: Theme = .default) {
         self.theme = theme
+        updateSubject = .init()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -35,11 +39,15 @@ final class AddMemberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         build()
+        listen()
     }
     
     // MARK: - Methods
-    func updateView(with state: String) {
-        selectedTeamLabel.text = state
+    func listen() {
+        cancellable = updateSubject
+            .sink { [weak self] state in
+                self?.selectedTeamLabel.text = state
+            }
     }
     
     private func build() {
@@ -72,7 +80,7 @@ final class AddMemberViewController: UIViewController {
         let textField = UITextField()
         let action = UIAction { [weak self] action in
             guard let textField = action.sender as? UITextField else { return }
-            self?.dispatch?(.didChangeTextField(textField.text ?? ""))
+            self?.dispatchSubject?.send(.didChangeTextField(textField.text ?? ""))
         }
         textField.delegate = self
         textField.addAction(action, for: .editingChanged)
@@ -105,7 +113,7 @@ final class AddMemberViewController: UIViewController {
             .enumerated()
             .map { index, team in
                 UIAction(title: team.description) { [weak self] _ in
-                    self?.dispatch?(.didSelectTeam(index))
+                    self?.dispatchSubject?.send(.didSelectTeam(index))
                 }
             }
         let menu = UIMenu(options: .displayInline, children: actions)

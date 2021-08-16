@@ -106,7 +106,7 @@ final class MemberListStore {
                 title: "Add",
                 style: .default
             ) { _ in
-                store.dispatch(.addMember)
+                store.send(.addMember)
             }
             let alertController = UIAlertController(
                 title: "Add Member",
@@ -116,8 +116,8 @@ final class MemberListStore {
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
             
-            addmemberViewController.dispatch = store.dispatch
-            store.updateView = addmemberViewController.updateView
+            addmemberViewController.dispatchSubject = store
+            store.updateSubject = addmemberViewController.updateSubject
             
             alertController.setValue(addmemberViewController, forKey: alertControllerKey)
             addmemberViewController.view.translatesAutoresizingMaskIntoConstraints = false

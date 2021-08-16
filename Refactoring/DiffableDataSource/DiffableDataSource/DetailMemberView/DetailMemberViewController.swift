@@ -45,6 +45,7 @@ final class DetailMemberViewController: UIViewController {
     var dispatchSubject: DetailMemberViewActionDispatcher?
     var updateSubject: PassthroughSubject<ViewState, Never>
     var cancellable: AnyCancellable?
+    
     // MARK: - Lifecycle
     init(_ theme: Theme = .default) {
         self.theme = theme

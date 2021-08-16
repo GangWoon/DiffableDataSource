@@ -8,7 +8,11 @@
 import UIKit
 import Combine
 
-final class AddMemberStore {
+protocol AddMemberViewActionDispatcher {
+    func send(_ action: AddMemberViewController.Action)
+}
+
+final class AddMemberStore: AddMemberViewActionDispatcher {
     
     struct State: Equatable {
         static var empty = Self(name: "", team: .iOS)
@@ -46,10 +50,11 @@ final class AddMemberStore {
     private var reducer: Reducer {
         Reducer(environment: environment)
     }
-    var updateView: ((String) -> Void)?
+    weak var updateSubject: PassthroughSubject<String, Never>?
     @Published private(set) var state: State
+    private let dispatchSubject: PassthroughSubject<AddMemberViewController.Action, Never>
     private let environment: Environment
-    private var cancellable: AnyCancellable?
+    private var cancellables: Set<AnyCancellable>
     
     // MARK: - Lifecycle
     init(
@@ -57,16 +62,37 @@ final class AddMemberStore {
         environment: Environment
     ) {
         self.state = state
+        dispatchSubject = .init()
         self.environment = environment
-        cancellable = $state
-            .removeDuplicates()
-            .sink { [weak self] state in
-                self?.updateView?(state.team.description)
-            }
+        cancellables = []
+        listen()
     }
     
     // MARK: - Methods
-    func dispatch(_ action: AddMemberViewController.Action) {
-        reducer.reduce(action, state: &state)
+    func send(_ action: AddMemberViewController.Action) {
+        dispatchSubject.send(action)
+    }
+    
+    private func listen() {
+        listenState()
+        listenAction()
+    }
+    
+    private func listenState() {
+        $state
+            .removeDuplicates()
+            .sink { [weak self] state in
+                self?.updateSubject?.send(state.team.description)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func listenAction() {
+        dispatchSubject
+            .sink { [weak self] action in
+                guard let self = self else { return }
+                self.reducer.reduce(action, state: &self.state)
+            }
+            .store(in: &cancellables)
     }
 }

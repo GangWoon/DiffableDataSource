@@ -10,7 +10,7 @@ import SwiftUI
 struct AddMemberPreview: View {
     var body: some View {
         WrappedViewController(AddMemberViewController()) { viewController in
-            viewController.updateView(with: "Frontend")
+
         }
     }
 }
