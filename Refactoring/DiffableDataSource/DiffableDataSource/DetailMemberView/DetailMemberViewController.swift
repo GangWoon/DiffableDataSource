@@ -41,9 +41,9 @@ final class DetailMemberViewController: UIViewController {
     }()
     
     // MARK: - Properties
+    var actionListener: DetailMemberViewActionListener?
+    let updateSubject: PassthroughSubject<ViewState, Never>
     private let theme: Theme
-    var dispatchSubject: DetailMemberViewActionDispatcher?
-    var updateSubject: PassthroughSubject<ViewState, Never>
     var cancellable: AnyCancellable?
     
     // MARK: - Lifecycle
@@ -60,15 +60,10 @@ final class DetailMemberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         build()
-        cancellable = updateSubject
-            .sink { [weak self] state in
-                self?.update(with: state)
-                
-            }
     }
     
     // MARK: - Methods
-    func update(with state: ViewState) {
+    private func update(with state: ViewState) {
         profileImageView.image = state.profile
         nameLabel.text = state.name
         teamLabel.text = state.team
@@ -81,6 +76,14 @@ final class DetailMemberViewController: UIViewController {
         buildCustomNavigationItem()
         buildVStack()
         buildProfileButton()
+        listenViewState()
+    }
+    
+    private func listenViewState() {
+        cancellable = updateSubject
+            .sink { [weak self] state in
+                self?.update(with: state)
+            }
     }
     
     private func buildCustomNavigationItem() {
@@ -89,7 +92,7 @@ final class DetailMemberViewController: UIViewController {
         view.addSubview(stack)
         
         let action = UIAction(image: theme.backButtonImage)  { [weak self] _ in
-            self?.dispatchSubject?.send(.backButtonTapped)
+            self?.actionListener?.send(.backButtonTapped)
         }
         let button = UIButton(primaryAction: action)
         stack.addArrangedSubview(button)
@@ -141,7 +144,7 @@ final class DetailMemberViewController: UIViewController {
     
     private func buildProfileButton() {
         let action = UIAction { [weak self] _ in
-            self?.dispatchSubject?.send(.profileImageTapped)
+            self?.actionListener?.send(.profileImageTapped)
         }
         let button = UIButton(type: .custom, primaryAction: action)
         button.backgroundColor = .clear
@@ -191,6 +194,6 @@ extension DetailMemberViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        dispatchSubject?.send(.textViewChanged(textView.text))
+        actionListener?.send(.textViewChanged(textView.text))
     }
 }

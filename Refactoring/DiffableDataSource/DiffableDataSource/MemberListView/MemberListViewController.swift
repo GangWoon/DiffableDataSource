@@ -30,10 +30,6 @@ final class MemberListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cancellable = updateSubject
-            .sink { [weak self] state in
-                self?.update(with: state)
-            }
         build()
         actionListener?.send(.loadInitialData)
     }
@@ -43,7 +39,7 @@ final class MemberListViewController: UITableViewController {
         actionListener?.send(.memberRowTapped(row: indexPath.row))
     }
     
-    func update(with state: ViewState) {
+    private func update(with state: ViewState) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, Member>()
         snapShot.appendSections([.main])
         snapShot.appendItems(state.members)
@@ -63,6 +59,14 @@ final class MemberListViewController: UITableViewController {
         buildListView()
         buildSearchController()
         buildAddMemberItem()
+        listenViewState()
+    }
+    
+    private func listenViewState() {
+        cancellable = updateSubject
+            .sink { [weak self] state in
+                self?.update(with: state)
+            }
     }
     
     private func buildListView() {

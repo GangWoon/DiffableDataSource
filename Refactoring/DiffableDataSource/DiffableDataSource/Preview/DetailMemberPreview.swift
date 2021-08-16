@@ -10,7 +10,13 @@ import SwiftUI
 struct DetailMemberPreview: View {
     var body: some View {
         WrappedViewController(DetailMemberViewController()) { viewController in
-//            viewController.update(with: DetailMemberViewController.ViewState(profile: .profile, name: "GangWoon", team: "iOS", bio: "Hello Swift."))
+            viewController.updateSubject
+                .send(DetailMemberViewController.ViewState(
+                    profile: .profile,
+                    name: "GangWoon",
+                    team: "iOS",
+                    bio: "Hello Swift."
+                ))
         }
     }
 }

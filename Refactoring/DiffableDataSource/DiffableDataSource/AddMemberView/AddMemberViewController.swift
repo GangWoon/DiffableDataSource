@@ -20,8 +20,8 @@ final class AddMemberViewController: UIViewController {
     }()
     
     // MARK: - Properties
+    var actionListener: AddMemberViewActionListener?
     let updateSubject: PassthroughSubject<String, Never>
-    var dispatchSubject: AddMemberViewActionDispatcher?
     private let theme: Theme
     private var cancellable: AnyCancellable?
     
@@ -39,19 +39,19 @@ final class AddMemberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         build()
-        listen()
     }
     
     // MARK: - Methods
-    func listen() {
+    private func build() {
+        buildVStack()
+        listenViewState()
+    }
+    
+    private func listenViewState() {
         cancellable = updateSubject
             .sink { [weak self] state in
                 self?.selectedTeamLabel.text = state
             }
-    }
-    
-    private func build() {
-        buildVStack()
     }
     
     private func buildVStack() {
@@ -80,7 +80,7 @@ final class AddMemberViewController: UIViewController {
         let textField = UITextField()
         let action = UIAction { [weak self] action in
             guard let textField = action.sender as? UITextField else { return }
-            self?.dispatchSubject?.send(.didChangeTextField(textField.text ?? ""))
+            self?.actionListener?.send(.didChangeTextField(textField.text ?? ""))
         }
         textField.delegate = self
         textField.addAction(action, for: .editingChanged)
@@ -113,7 +113,7 @@ final class AddMemberViewController: UIViewController {
             .enumerated()
             .map { index, team in
                 UIAction(title: team.description) { [weak self] _ in
-                    self?.dispatchSubject?.send(.didSelectTeam(index))
+                    self?.actionListener?.send(.didSelectTeam(index))
                 }
             }
         let menu = UIMenu(options: .displayInline, children: actions)

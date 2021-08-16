@@ -12,7 +12,8 @@ struct MemberListPreview: View {
         NavigationView(
             content: {
                 WrappedViewController(MemberListViewController()) { viewController in
-                    viewController.update(with: MemberListViewController.ViewState(members: [.dummy,.dummy,.dummy]))
+                    viewController.updateSubject
+                        .send(MemberListViewController.ViewState(members: [.dummy,.dummy,.dummy]))
                 }
             }
         )

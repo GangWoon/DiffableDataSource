@@ -8,11 +8,11 @@
 import UIKit
 import Combine
 
-protocol DetailMemberViewActionDispatcher {
+protocol DetailMemberViewActionListener {
     func send(_ action: DetailMemberViewController.Action)
 }
 
-final class DetailMemberStore: DetailMemberViewActionDispatcher {
+final class DetailMemberStore: DetailMemberViewActionListener {
     
     struct Environment {
         let dismissSubject: PassthroughSubject<(UIImage?, String?), Never>
@@ -48,8 +48,8 @@ final class DetailMemberStore: DetailMemberViewActionDispatcher {
         return Reducer(environment: environment)
     }
     @Published private(set) var state: DetailMemberViewController.ViewState
-    private var dispatchSubject: PassthroughSubject<DetailMemberViewController.Action, Never>
     weak var updateSubject: PassthroughSubject<DetailMemberViewController.ViewState, Never>?
+    private let actionListener: PassthroughSubject<DetailMemberViewController.Action, Never>
     private let environment: Environment
     private var cancellables: Set<AnyCancellable>
     
@@ -60,14 +60,14 @@ final class DetailMemberStore: DetailMemberViewActionDispatcher {
     ) {
         self.state = state
         self.environment = environment
-        dispatchSubject = .init()
-        cancellables = .init()
+        actionListener = .init()
+        cancellables = []
         listen()
     }
     
     // MARK: - Methods
     func send(_ action: DetailMemberViewController.Action) {
-        dispatchSubject.send(action)
+        actionListener.send(action)
     }
     
     private func listen() {
@@ -87,7 +87,7 @@ final class DetailMemberStore: DetailMemberViewActionDispatcher {
     }
     
     private func listenAction() {
-        dispatchSubject
+        actionListener
             .sink { [weak self] action in
                 guard let self = self else { return }
                 self.reducer.reduce(action, state: &self.state)

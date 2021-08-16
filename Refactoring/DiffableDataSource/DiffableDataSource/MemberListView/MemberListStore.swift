@@ -76,7 +76,7 @@ final class MemberListStore: MemberListViewActionListener {
             )
             let store = DetailMemberStore(state: state, environment: environment)
             
-            detailViewController.dispatchSubject = store
+            detailViewController.actionListener = store
             store.updateSubject = detailViewController.updateSubject
             
             viewController.show(detailViewController, sender: viewController)
@@ -120,7 +120,7 @@ final class MemberListStore: MemberListViewActionListener {
             alertController.addAction(cancelAction)
             alertController.addAction(addAction)
             
-            addmemberViewController.dispatchSubject = store
+            addmemberViewController.actionListener = store
             store.updateSubject = addmemberViewController.updateSubject
             
             alertController.setValue(addmemberViewController, forKey: alertControllerKey)
@@ -196,9 +196,9 @@ final class MemberListStore: MemberListViewActionListener {
     private var reducer: Reducer {
         Reducer(environment: environment)
     }
-    weak var updateSubject: PassthroughSubject<MemberListViewController.ViewState, Never>?
-    let dispatchSubject: PassthroughSubject<MemberListViewController.Action, Never>
     @Published private(set) var state: State
+    weak var updateSubject: PassthroughSubject<MemberListViewController.ViewState, Never>?
+    private let actionListener: PassthroughSubject<MemberListViewController.Action, Never>
     private let environment: Environment
     private var cancellables: Set<AnyCancellable>
     
@@ -208,15 +208,15 @@ final class MemberListStore: MemberListViewActionListener {
         environment: Environment
     ) {
         self.state = state
-        dispatchSubject = .init()
         self.environment = environment
-        self.cancellables = []
+        actionListener = .init()
+        cancellables = []
         listen()
     }
     
     // MARK: - Methods
     func send(_ action: MemberListViewController.Action) {
-        dispatchSubject.send(action)
+        actionListener.send(action)
     }
     
     private func listen() {
@@ -235,11 +235,13 @@ final class MemberListStore: MemberListViewActionListener {
     }
     
     private func listenAction() {
-        dispatchSubject
+        actionListener
             .sink { [weak self] action in
                 guard let self = self else { return }
                 self.reducer.reduce(action, state: &self.state)
-                    .map(self.fireEffect(_:))
+                    .map { [weak self] effect in
+                        self?.fireEffect(effect)
+                    }
             }
             .store(in: &cancellables)
     }
@@ -247,7 +249,7 @@ final class MemberListStore: MemberListViewActionListener {
     private func fireEffect(_ effect: AnyPublisher<MemberListViewController.Action, Never>) {
         effect
             .receive(on: self.environment.scheduler)
-            .sink(receiveValue: self.dispatchSubject.send(_:))
+            .sink(receiveValue: self.actionListener.send(_:))
             .store(in: &self.cancellables)
     }
 }

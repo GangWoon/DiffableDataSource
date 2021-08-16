@@ -8,11 +8,11 @@
 import UIKit
 import Combine
 
-protocol AddMemberViewActionDispatcher {
+protocol AddMemberViewActionListener {
     func send(_ action: AddMemberViewController.Action)
 }
 
-final class AddMemberStore: AddMemberViewActionDispatcher {
+final class AddMemberStore: AddMemberViewActionListener {
     
     struct State: Equatable {
         static var empty = Self(name: "", team: .iOS)
@@ -50,9 +50,9 @@ final class AddMemberStore: AddMemberViewActionDispatcher {
     private var reducer: Reducer {
         Reducer(environment: environment)
     }
-    weak var updateSubject: PassthroughSubject<String, Never>?
     @Published private(set) var state: State
-    private let dispatchSubject: PassthroughSubject<AddMemberViewController.Action, Never>
+    weak var updateSubject: PassthroughSubject<String, Never>?
+    private let actionListener: PassthroughSubject<AddMemberViewController.Action, Never>
     private let environment: Environment
     private var cancellables: Set<AnyCancellable>
     
@@ -62,15 +62,15 @@ final class AddMemberStore: AddMemberViewActionDispatcher {
         environment: Environment
     ) {
         self.state = state
-        dispatchSubject = .init()
         self.environment = environment
+        actionListener = .init()
         cancellables = []
         listen()
     }
     
     // MARK: - Methods
     func send(_ action: AddMemberViewController.Action) {
-        dispatchSubject.send(action)
+        actionListener.send(action)
     }
     
     private func listen() {
@@ -88,7 +88,7 @@ final class AddMemberStore: AddMemberViewActionDispatcher {
     }
     
     private func listenAction() {
-        dispatchSubject
+        actionListener
             .sink { [weak self] action in
                 guard let self = self else { return }
                 self.reducer.reduce(action, state: &self.state)
