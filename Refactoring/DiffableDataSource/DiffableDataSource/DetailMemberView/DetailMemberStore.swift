@@ -8,7 +8,11 @@
 import UIKit
 import Combine
 
-final class DetailMemberStore {
+protocol DetailMemberViewActionDispatcher {
+    func send(_ action: DetailMemberViewController.Action)
+}
+
+final class DetailMemberStore: DetailMemberViewActionDispatcher {
     
     struct Environment {
         let dismissSubject: PassthroughSubject<(UIImage?, String?), Never>
@@ -43,10 +47,11 @@ final class DetailMemberStore {
     private var reducer: Reducer {
         return Reducer(environment: environment)
     }
-    var updateView: ((DetailMemberViewController.ViewState) -> Void)?
     @Published private(set) var state: DetailMemberViewController.ViewState
+    private var dispatchSubject: PassthroughSubject<DetailMemberViewController.Action, Never>
+    weak var updateSubject: PassthroughSubject<DetailMemberViewController.ViewState, Never>?
     private let environment: Environment
-    private var cancellables: AnyCancellable?
+    private var cancellables: Set<AnyCancellable>
     
     // MARK: - Lifecycle
     init(
@@ -55,16 +60,38 @@ final class DetailMemberStore {
     ) {
         self.state = state
         self.environment = environment
-        cancellables = $state
-            .removeDuplicates()
-            .subscribe(on: environment.scheduler)
-            .sink { [weak self] state in
-                self?.updateView?(state)
-            }
+        dispatchSubject = .init()
+        cancellables = .init()
+        listen()
     }
     
     // MARK: - Methods
-    func dispatch(_ action: DetailMemberViewController.Action) {
-        reducer.reduce(action, state: &state)
+    func send(_ action: DetailMemberViewController.Action) {
+        dispatchSubject.send(action)
+    }
+    
+    private func listen() {
+        listenState()
+        listenAction()
+    }
+    
+    private func listenState() {
+        $state
+            .removeDuplicates()
+            .subscribe(on: environment.scheduler)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateSubject?.send(state)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func listenAction() {
+        dispatchSubject
+            .sink { [weak self] action in
+                guard let self = self else { return }
+                self.reducer.reduce(action, state: &self.state)
+            }
+            .store(in: &cancellables)
     }
 }

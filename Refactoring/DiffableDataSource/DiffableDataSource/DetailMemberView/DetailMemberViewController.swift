@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class DetailMemberViewController: UIViewController {
     
@@ -40,12 +41,14 @@ final class DetailMemberViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    var dispatch: ((Action) -> Void)?
     private let theme: Theme
-    
+    var dispatchSubject: DetailMemberViewActionDispatcher?
+    var updateSubject: PassthroughSubject<ViewState, Never>
+    var cancellable: AnyCancellable?
     // MARK: - Lifecycle
     init(_ theme: Theme = .default) {
         self.theme = theme
+        self.updateSubject = .init()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,6 +59,11 @@ final class DetailMemberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         build()
+        cancellable = updateSubject
+            .sink { [weak self] state in
+                self?.update(with: state)
+                
+            }
     }
     
     // MARK: - Methods
@@ -80,7 +88,7 @@ final class DetailMemberViewController: UIViewController {
         view.addSubview(stack)
         
         let action = UIAction(image: theme.backButtonImage)  { [weak self] _ in
-            self?.dispatch?(.backButtonTapped)
+            self?.dispatchSubject?.send(.backButtonTapped)
         }
         let button = UIButton(primaryAction: action)
         stack.addArrangedSubview(button)
@@ -132,7 +140,7 @@ final class DetailMemberViewController: UIViewController {
     
     private func buildProfileButton() {
         let action = UIAction { [weak self] _ in
-            self?.dispatch?(.profileImageTapped)
+            self?.dispatchSubject?.send(.profileImageTapped)
         }
         let button = UIButton(type: .custom, primaryAction: action)
         button.backgroundColor = .clear
@@ -182,6 +190,6 @@ extension DetailMemberViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        dispatch?(.textViewChanged(textView.text))
+        dispatchSubject?.send(.textViewChanged(textView.text))
     }
 }

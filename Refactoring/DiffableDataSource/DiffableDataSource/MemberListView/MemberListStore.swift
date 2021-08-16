@@ -72,8 +72,9 @@ final class MemberListStore {
             )
             let store = DetailMemberStore(state: state, environment: environment)
             
-            detailViewController.dispatch = store.dispatch
-            store.updateView = detailViewController.update
+            detailViewController.dispatchSubject = store
+            store.updateSubject = detailViewController.updateSubject
+            
             viewController.show(detailViewController, sender: viewController)
             
             return subject
