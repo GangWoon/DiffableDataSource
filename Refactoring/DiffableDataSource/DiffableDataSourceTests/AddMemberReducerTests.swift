@@ -13,7 +13,7 @@ final class AddMemberReducerTests: XCTestCase {
     
     private var cancellable: AnyCancellable?
     
-    func testDidChangeTextFieldAction() {
+    func testDidChangeTextFieldAction_noEffect() {
         let subject = PassthroughSubject<(String, Team), Never>()
         let environment = AddMemberStore.Environment(scheduler: .main, onDismissSubject: subject)
         let reducer = AddMemberStore.Reducer(environment: environment)
@@ -22,7 +22,7 @@ final class AddMemberReducerTests: XCTestCase {
         XCTAssertEqual(state.name, "Hello")
     }
     
-    func testDidSelectTeam() {
+    func testDidSelectTeam_noEffect() {
         let subject = PassthroughSubject<(String, Team), Never>()
         let environment = AddMemberStore.Environment(scheduler: .main, onDismissSubject: subject)
         let reducer = AddMemberStore.Reducer(environment: environment)
@@ -31,7 +31,7 @@ final class AddMemberReducerTests: XCTestCase {
         XCTAssertEqual(state.team, .frontend)
     }
     
-    func testAddMember() {
+    func testAddMember_1Effect() {
         let subject = PassthroughSubject<(String, Team), Never>()
         let environment = AddMemberStore.Environment(scheduler: .main, onDismissSubject: subject)
         let reducer = AddMemberStore.Reducer(environment: environment)

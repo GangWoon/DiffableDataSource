@@ -39,7 +39,7 @@ final class DetailMemberStoreTests: XCTestCase {
         XCTAssertEqual(state.bio, dummyBio)
     }
     
-    func testBackButtonTapped() {
+    func testBackButtonTapped_1Effect() {
         let subject = PassthroughSubject<(UIImage?, String?), Never>()
         let dummyProfile = UIImage.checkmark
         let dummyBio = "Hello"
