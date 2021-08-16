@@ -8,12 +8,16 @@
 import UIKit
 import Combine
 
+protocol MemberListViewActionListener {
+    func send(_ action: MemberListViewController.Action)
+}
+
 protocol MemberListStoreNavigator {
     func presentAddMemberView() -> AnyPublisher<(String, Team), Never>
     func presentDetailMemberView(member: MemberListViewController.Member) -> AnyPublisher<(UIImage?, String?), Never>
 }
 
-final class MemberListStore {
+final class MemberListStore: MemberListViewActionListener {
     
     struct State: Hashable {
         static var empty = Self(
@@ -192,7 +196,8 @@ final class MemberListStore {
     private var reducer: Reducer {
         Reducer(environment: environment)
     }
-    var updateView: ((MemberListViewController.ViewState) -> Void)?
+    weak var updateSubject: PassthroughSubject<MemberListViewController.ViewState, Never>?
+    let dispatchSubject: PassthroughSubject<MemberListViewController.Action, Never>
     @Published private(set) var state: State
     private let environment: Environment
     private var cancellables: Set<AnyCancellable>
@@ -203,26 +208,47 @@ final class MemberListStore {
         environment: Environment
     ) {
         self.state = state
+        dispatchSubject = .init()
         self.environment = environment
         self.cancellables = []
+        listen()
+    }
+    
+    // MARK: - Methods
+    func send(_ action: MemberListViewController.Action) {
+        dispatchSubject.send(action)
+    }
+    
+    private func listen() {
+        listenState()
+        listenAction()
+    }
+    
+    private func listenState() {
         $state
             .removeDuplicates()
             .subscribe(on: environment.scheduler)
             .sink { [weak self] state in
-                self?.updateView?(MemberListViewController.ViewState(state: state))
+                self?.updateSubject?.send(MemberListViewController.ViewState(state: state))
             }
             .store(in: &cancellables)
     }
     
-    // MARK: - Methods
-    func dispath(_ action: MemberListViewController.Action) {
-        reducer.reduce(action, state: &state)
-            .map { effect in
-                effect
-                    .receive(on: environment.scheduler)
-                    .sink(receiveValue: dispath)
-                    .store(in: &cancellables)
+    private func listenAction() {
+        dispatchSubject
+            .sink { [weak self] action in
+                guard let self = self else { return }
+                self.reducer.reduce(action, state: &self.state)
+                    .map(self.fireEffect(_:))
             }
+            .store(in: &cancellables)
+    }
+    
+    private func fireEffect(_ effect: AnyPublisher<MemberListViewController.Action, Never>) {
+        effect
+            .receive(on: self.environment.scheduler)
+            .sink(receiveValue: self.dispatchSubject.send(_:))
+            .store(in: &self.cancellables)
     }
 }
 

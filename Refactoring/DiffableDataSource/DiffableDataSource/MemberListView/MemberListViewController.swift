@@ -11,13 +11,16 @@ import Combine
 final class MemberListViewController: UITableViewController {
     
     // MARK: - Properties
-    var dispatch: ((Action) -> Void)?
+    var actionListener: MemberListViewActionListener?
+    let updateSubject: PassthroughSubject<ViewState, Never>
     private var dataSource: UITableViewDiffableDataSource<Section, Member>?
     private let theme: Theme
+    private var cancellable: AnyCancellable?
     
     // MARK: - Lifecycle
     init(_ theme: Theme = .default) {
         self.theme = theme
+        updateSubject = .init()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,13 +30,17 @@ final class MemberListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dispatch?(.loadInitialData)
+        cancellable = updateSubject
+            .sink { [weak self] state in
+                self?.update(with: state)
+            }
         build()
+        actionListener?.send(.loadInitialData)
     }
     
     // MARK: - Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dispatch?(.memberRowTapped(row: indexPath.row))
+        actionListener?.send(.memberRowTapped(row: indexPath.row))
     }
     
     func update(with state: ViewState) {
@@ -79,8 +86,8 @@ final class MemberListViewController: UITableViewController {
     }
     
     private func buildAddMemberItem() {
-        let action = UIAction { _ in
-            self.dispatch?(.addMemberButtonTapped)
+        let action = UIAction { [weak self] _ in
+            self?.actionListener?.send(.addMemberButtonTapped)
         }
         let item = UIBarButtonItem(
             systemItem: .add,
@@ -94,7 +101,7 @@ final class MemberListViewController: UITableViewController {
 // MARK: - UISearchResultsUpdating
 extension MemberListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        dispatch?(.searchBarChanged(query: searchController.searchBar.text ?? ""))
+        actionListener?.send(.searchBarChanged(query: searchController.searchBar.text ?? ""))
     }
 }
 

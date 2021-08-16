@@ -37,9 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             )
         )
         let store = MemberListStore(state: .empty, environment: environment)
-
-        store.updateView = memberListViewController.update
-        memberListViewController.dispatch = store.dispath
+        
+        store.updateSubject = memberListViewController.updateSubject
+        memberListViewController.actionListener = store
         
         let navigationViewController = UINavigationController(rootViewController: memberListViewController)
         
