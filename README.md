@@ -5,9 +5,23 @@ View와 Business Logic이 밀접한 관계를 느슨하게 개선했습니다.
 <br>
 또한 이곳저곳 분산되어있던 로직을 한곳에서 처리하도록 구현했습니다.
 <br>
-실시간 UITest를 통해서 View를 만드는 시간을 단축했습니다..
+실시간 UITest를 통해서 View를 만드는 시간을 단축했습니다.
+<br>
+<br>
 
+### Issue
+- Memory Issue
+
+
+[[issue](https://github.com/GangWoon/DiffableDataSource/issues/4)] closure injection 과정에서 발생하 해제되지 않는 문제를 발견해서 구조를 개선으로 해결했습니다. 
+
+<br>
+
+###  정리 글
 [Custom Redux](https://gangwoon.tistory.com/23) , [Testable Reducer](https://gangwoon.tistory.com/25?category=787046), [UITest](https://gangwoon.tistory.com/24?category=787046)
+
+<br>
+
 ### 화면
 ![KakaoTalk_Photo_2021-09-07-01-51-16](https://user-images.githubusercontent.com/48466830/132246766-8e41219f-37a2-40c8-a877-c292e5bc04ae.gif)
 
