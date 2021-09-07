@@ -25,7 +25,7 @@ View와 Business Logic이 밀접한 관계를 느슨하게 개선했습니다.
 ### 화면
 ![KakaoTalk_Photo_2021-09-07-01-51-16](https://user-images.githubusercontent.com/48466830/132246766-8e41219f-37a2-40c8-a877-c292e5bc04ae.gif)
 
-![KakaoTalk_Photo_2021-09-07-01-52-31 001](https://user-images.githubusercontent.com/48466830/132246775-89026824-9d56-4567-a731-f106f0f9ddb9.gif)
+![KakaoTalk_Photo_2021-09-08-01-37-51](https://user-images.githubusercontent.com/48466830/132380713-eeccf918-b75e-4a15-8996-dd5e6af63f84.gif)
 
 ![KakaoTalk_Photo_2021-09-07-01-52-31 002](https://user-images.githubusercontent.com/48466830/132246782-684dc89a-8fcc-446c-8c28-5507607e26e6.gif)
 
